@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensamiento Matemático 1 — Leyes avanzadas de exponentes — Mtra. Adriana Arroyo</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  :root{
+    --bg:#0b1117;
+    --card:#0f172a;
+    --ink:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#1e293b;
+    --pill:#0b1220;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:16px;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:system-ui,Segoe UI,Roboto,Arial;
+  }
+  h1{margin:0 0 6px 0;font-size:22px}
+  .credit{margin:6px 0 12px 0;color:var(--muted);font-size:14px}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px;
+    margin-bottom:12px;
+  }
+  label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
+  input,select,button{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#0b1220;
+    color:#f8fafc;
+    font-size:18px;
+  }
+  .pill{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--pill);
+    margin-right:6px;
+    font-size:14px;
+  }
+  .op{
+    font-weight:700;
+    font-size:18px;
+    line-height:1.45;
+    min-height:84px;
+    margin:8px 0 10px 0;
+  }
+  .hint{
+    color:var(--muted);
+    font-size:14px;
+  }
+  .box{
+    background:#0b1320;
+    border:1px solid #1b2b46;
+    border-radius:10px;
+    padding:10px;
+    margin-top:8px;
+    font-size:14px;
+  }
+  .btns{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+  }
+  .btns button{flex:1}
+  .primary{
+    background:#38bdf8;
+    color:#0a0a12;
+    font-weight:800;
+    border:none;
+    cursor:pointer;
+  }
+  .muted{
+    background:#0b1220;
+    color:#e2e8f0;
+    border:1px solid #223049;
+  }
+</style>
+</head>
+<body>
+<nav style="padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="pm1_razones_prop_porcent_OFFLINE.html" style="background:#34d399;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Razones</a>
+    <a href="pm1_regla_de_tres_OFFLINE.html" style="background:#a78bfa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Regla 3</a>
+    <a href="pm1_mcm_mcd_quiz_OFFLINE.html" style="background:#60a5fa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">MCM/MCD</a>
+    <a href="pm1_exponentes_OFFLINE (2).html" style="background:#fbbf24;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exponentes</a>
+    <a href="pm1_exponentes_avanzados_OFFLINE_RESET.html" style="background:#38bdf8;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exp. Avanz</a>
+</nav>
+
+<div class="card">
+  <h1>PENSAMIENTO MATEMÁTICO 1: Leyes avanzadas de exponentes</h1>
+  <p class="credit">by Mtra. Adriana Arroyo • Versión offline (sin internet) • 15 ítems por sesión</p>
+</div>
+
+<div class="card">
+  <label>Nombre</label>
+  <input id="studentName" placeholder="Nombre y apellidos">
+  <label>Grupo</label>
+  <input id="studentGroup" placeholder="p. ej., 1°A">
+  <label>Modo</label>
+  <select id="mode">
+    <option value="mixed" selected>Mixto (todas las leyes avanzadas)</option>
+    <option value="prod">Solo potencia de un producto ( (ab)^n )</option>
+    <option value="quot">Solo potencia de un cociente ( (a/b)^n )</option>
+    <option value="combo">Solo combinaciones de leyes</option>
+  </select>
+  <button id="startBtn" class="primary" onclick="startQuiz()">Iniciar (15 ítems)</button>
+</div>
+
+<div class="card">
+  <div id="operation" class="op">—</div>
+  <p class="hint">
+    Puedes responder en forma de potencia o como número/fracción.
+    Ejemplos válidos: <strong>6^2</strong>, <strong>6**2</strong>, <strong>36</strong>, <strong>1/8</strong>, <strong>0.125</strong>.
+  </p>
+  <input id="answer" inputmode="decimal" placeholder="Escribe la respuesta (por ejemplo 6^2, 36 o 1/8)">
+  <div class="btns">
+    <button id="checkBtn" class="primary" onclick="checkAnswer()">Comprobar</button>
+    <button id="nextBtn" class="muted" onclick="nextItem()">Siguiente</button>
+  </div>
+  <div id="feedback" style="min-height:150px;margin-top:10px"></div>
+</div>
+
+<div class="card">
+  <span id="counter" class="pill">Ítem —/15</span>
+  <span id="score" class="pill">Aciertos 0</span>
+  <span id="streak" class="pill">Racha 0</span>
+</div>
+
+<script>
+// =========================
+// Utilidades simples
+// =========================
+function $(id){
+  return document.getElementById(id);
+}
+function randInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+function choice(arr){
+  return arr[randInt(0,arr.length-1)];
+}
+
+// =========================
+// Estado global del quizz
+// =========================
+var quizState = {
+  items: [],
+  index: 0,
+  score: 0,
+  streak: 0
+};
+
+// =========================
+// Analizar respuesta
+// =========================
+function parseAnswer(str){
+  if(!str) return null;
+  str = String(str).trim().toLowerCase();
+  if(!str) return null;
+  str = str.replace(/\s+/g,'');
+  var base = null, exp = null, num = null;
+
+  // a**b
+  if(str.indexOf('**') !== -1){
+    var p2 = str.split('**');
+    if(p2.length === 2){
+      base = parseInt(p2[0],10);
+      exp  = parseInt(p2[1],10);
+      if(!isNaN(base) && !isNaN(exp)){
+        num = Math.pow(base,exp);
+        return {base:base, exp:exp, num:num};
+      }
+    }
+  }
+
+  // a^b
+  if(str.indexOf('^') !== -1){
+    var p = str.split('^');
+    if(p.length === 2){
+      base = parseInt(p[0],10);
+      exp  = parseInt(p[1],10);
+      if(!isNaN(base) && !isNaN(exp)){
+        num = Math.pow(base,exp);
+        return {base:base, exp:exp, num:num};
+      }
+    }
+  }
+
+  // fracción a/b
+  if(str.indexOf('/') !== -1){
+    var f = str.split('/');
+    if(f.length === 2){
+      var nume = parseFloat(f[0]);
+      var den  = parseFloat(f[1]);
+      if(!isNaN(nume) && !isNaN(den) && den !== 0){
+        num = nume/den;
+        return {base:null, exp:null, num:num};
+      }
+    }
+  }
+
+  // número simple
+  var n = Number(str);
+  if(!isNaN(n)){
+    num = n;
+    return {base:null, exp:null, num:num};
+  }
+
+  return null;
+}
+
+// =========================
+// Generadores de ejercicios
+// =========================
+
+// (ab)^n
+function makeProd(){
+  var a,b,n,baseProd,val;
+  while(true){
+    a = randInt(2,5);
+    b = randInt(2,5);
+    baseProd = a*b;
+    n = randInt(2,3);
+    val = Math.pow(baseProd,n);
+    if(val <= 1000) break;
+  }
+  return {
+    kind: 'prod',
+    mode: 'either',
+    base: baseProd,
+    exp: n,
+    numeric: val,
+    textHtml: '('+a+'·'+b+')<sup>'+n+'</sup> = ?',
+    lawTitle: 'Potencia de un producto',
+    law: '(ab)^n = a^n · b^n.',
+    explain: 'Primero se eleva cada factor ('+a+'^'+n+' y '+b+'

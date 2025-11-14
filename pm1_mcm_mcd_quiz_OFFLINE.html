@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensamiento Matemático 1 — Quiz MCM y MCD — Mtra. Adriana Arroyo</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  :root{
+    --bg:#0b1117;
+    --card:#0f172a;
+    --ink:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#1e293b;
+    --pill:#0b1220;
+    --accent:#22c55e;
+    --error:#ef4444;
+    --ok:#22c55e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:16px;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:system-ui,Segoe UI,Roboto,Arial;
+  }
+  h1{margin:0 0 6px 0;font-size:22px}
+  .credit{margin:6px 0 12px 0;color:var(--muted);font-size:14px}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px;
+    margin-bottom:12px;
+  }
+  label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
+  input,button{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#0b1220;
+    color:#f8fafc;
+    font-size:16px;
+  }
+  .pill{
+    display:inline-block;
+    padding:6px 10px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--pill);
+    margin-right:6px;
+    font-size:13px;
+  }
+  button.primary{
+    background:var(--accent);
+    color:#020617;
+    font-weight:700;
+    border:none;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  button.secondary{
+    background:#0b1220;
+    color:#e2e8f0;
+    border:1px solid #1e293b;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  .btn-row{
+    display:flex;
+    gap:8px;
+    margin-top:4px;
+  }
+  .btn-row button{flex:1}
+  .hint{
+    color:var(--muted);
+    font-size:13px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:8px;
+    font-size:14px;
+  }
+  th,td{
+    border:1px solid #1e293b;
+    padding:6px 4px;
+    text-align:center;
+  }
+  th{
+    background:#020617;
+    color:#e5e7eb;
+    font-weight:600;
+  }
+  tr:nth-child(even) td{
+    background:#020617;
+  }
+  .box{
+    background:#020617;
+    border:1px solid #1e293b;
+    border-radius:10px;
+    padding:8px;
+    margin-top:8px;
+    font-size:13px;
+  }
+  .results{
+    margin-top:8px;
+    font-size:15px;
+  }
+  .results strong{
+    color:var(--accent);
+  }
+</style>
+</head>
+<body>
+<nav style="padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="pm1_razones_prop_porcent_OFFLINE.html" style="background:#34d399;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Razones</a>
+    <a href="pm1_regla_de_tres_OFFLINE.html" style="background:#a78bfa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Regla 3</a>
+    <a href="pm1_mcm_mcd_quiz_OFFLINE.html" style="background:#60a5fa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">MCM/MCD</a>
+    <a href="pm1_exponentes_OFFLINE (2).html" style="background:#fbbf24;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exponentes</a>
+    <a href="pm1_exponentes_avanzados_OFFLINE_RESET.html" style="background:#38bdf8;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exp. Avanz</a>
+</nav>
+
+<div class="card">
+  <h1>PENSAMIENTO MATEMÁTICO 1: Quiz de MCM y MCD</h1>
+  <p class="credit">
+    by Mtra. Adriana Arroyo • Versión offline • 10 ítems por sesión<br>
+    La app propone 2 o 3 números. Tú calculas el MCD y el MCM a mano.
+  </p>
+</div>
+
+<div class="card">
+  <label>Nombre (opcional)</label>
+  <input id="studentName" placeholder="Nombre y apellidos">
+  <label>Grupo (opcional)</label>
+  <input id="studentGroup" placeholder="p. ej., 1°A">
+  <button class="primary" onclick="startQuiz()">Iniciar sesión (10 ítems)</button>
+</div>
+
+<div class="card">
+  <div id="problem" class="results">
+    Da clic en <strong>Iniciar sesión</strong> para comenzar.
+  </div>
+  <p class="hint">
+    Calcula primero en tu cuaderno. Después captura tus resultados.
+  </p>
+  <label>Tu MCD</label>
+  <input id="ansMCD" inputmode="numeric" placeholder="Escribe el MCD">
+  <label>Tu MCM</label>
+  <input id="ansMCM" inputmode="numeric" placeholder="Escribe el MCM">
+  <div class="btn-row">
+    <button class="primary" onclick="checkAnswer()">Comprobar</button>
+    <button class="secondary" onclick="nextItem()">Siguiente</button>
+  </div>
+  <div id="feedback" class="box"></div>
+  <div id="tableContainer"></div>
+</div>
+
+<div class="card">
+  <span id="counter" class="pill">Ítem —/10</span>
+  <span id="score" class="pill">Aciertos 0</span>
+</div>
+
+<script>
+// Utilidades
+function randInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+function choice(arr){
+  return arr[randInt(0,arr.length-1)];
+}
+
+// MCD y MCM vía tabla de primos (2,3,5,7,11)
+function computeWithTable(nums){
+  var current = nums.slice();
+  var primes = [2,3,5,7,11];
+  var steps = [];
+  var mcm = 1;
+  var mcd = 1;
+
+  function anyDivisible(arr, p){
+    for(var i=0;i<arr.length;i++){
+      if(arr[i] % p === 0) return true;
+    }
+    return false;
+  }
+  function allDivisible(arr, p){
+    for(var i=0;i<arr.length;i++){
+      if(arr[i] % p !== 0) return false;
+    }
+    return true;
+  }
+  function allOnes(arr){
+    for(var i=0;i<arr.length;i++){
+      if(arr[i] !== 1) return false;
+    }
+    return true;
+  }
+
+  while(true){
+    if(allOnes(current)) break;
+
+    var usedPrime = null;
+    for(var pi=0;pi<primes.length;pi++){
+      var p = primes[pi];
+      if(anyDivisible(current,p)){
+        usedPrime = p;
+        break;
+      }
+    }
+    if(usedPrime === null){
+      break;
+    }
+
+    var before = current.slice();
+    var after = [];
+    for(var k=0;k<current.length;k++){
+      if(current[k] % usedPrime === 0){
+        after.push(current[k] / usedPrime);
+      }else{
+        after.push(current[k]);
+      }
+    }
+    current = after;
+
+    mcm *= usedPrime;
+    var common = allDivisible(before, usedPrime);
+    if(common){
+      mcd *= usedPrime;
+    }
+
+    steps.push({
+      before: before,
+      after: after,
+      prime: usedPrime,
+      common: common
+    });
+  }
+
+  return {
+    mcm: mcm,
+    mcd: mcd,
+    steps: steps
