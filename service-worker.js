@@ -1,6 +1,7 @@
-const CACHE_NAME = 'pm1-cache-v2';
+const CACHE_NAME = 'pm1-cache-v3';  // nueva versión de caché
 
 const URLS_TO_CACHE = [
+  'index.html',
   'pm1_razones_prop_porcent_OFFLINE.html',
   'pm1_regla_de_tres_OFFLINE.html',
   'pm1_mcm_mcd_quiz_OFFLINE.html',
@@ -35,9 +36,9 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       if (response) {
-        return response;    // cache first
+        return response;    // usa caché si ya está
       }
-      return fetch(event.request);
+      return fetch(event.request);  // si no, va a la red
     })
   );
 });
