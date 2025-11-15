@@ -1,13 +1,14 @@
 const CACHE_NAME = 'pm1-cache-v1';
 const urlsToCache = [
-  '/', // Directorio raíz
+  '/', 
   'pm1_razones_prop_porcent_OFFLINE.html',
-  'pm1_mcm_mcd_OFFLINE.html',
   'pm1_regla_de_tres_OFFLINE.html',
+  'pm1_mcm_mcd_quiz_OFFLINE.html',
+  'pm1_exponentes_OFFLINE (2).html',
+  'pm1_exponentes_avanzados_OFFLINE_RESET.html',
   'manifest.json',
-  // Si agregaste los íconos, puedes incluirlos aquí:
-  // 'icon_192.png', 
-  // 'icon_512.png'
+  'icon_192.png', 
+  'icon_512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -24,7 +25,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
