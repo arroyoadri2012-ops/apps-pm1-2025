@@ -6,50 +6,193 @@
 <title>Pensamiento Matemático 1 — Razones, Proporciones y Porcentajes — Mtra. Adriana Arroyo</title>
 <link rel="manifest" href="manifest.json">
 <style>
-  :root{--bg:#0b1117;--card:#0f172a;--ink:#f8fafc;--muted:#cbd5e1;--border:#1e293b;--pill:#0b1220;}
-  *{box-sizing:border-box} body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Arial}
-  h1{margin:0 0 6px 0;font-size:22px}
-  .credit{margin:6px 0 12px 0;color:var(--muted);font-size:14px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:12px}
-  label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
-  input,select,button{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:#0b1220;color:#f8fafc;font-size:18px}
-  .pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--pill);margin-right:6px;font-size:14px}
-  .op{font-weight:700;font-size:18px;line-height:1.45;min-height:84px;margin:8px 0 10px 0}
-  .box{background:#0b1320;border:1px solid #1b2b46;border-radius:10px;padding:10px;margin-top:10px}
-  .btns{display:flex;gap:10px;margin-top:10px}.btns button{flex:1}
-  .primary{background:#34d399;color:#0a1b12;font-weight:800;border:none;cursor:pointer}
-  .muted{background:#0b1220;color:#e2e8f0;border:1px solid #223049}
+  :root{
+    --bg:#0b1117;
+    --card:#0f172a;
+    --ink:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#1e293b;
+    --pill:#0b1220;
+    --accent:#22c55e;
+    --accent-soft:#064e3b;
+    --error:#ef4444;
+    --error-soft:#451a1a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    padding:16px;
+    background:radial-gradient(circle at top,#020617,#0b1117 55%);
+    color:var(--ink);
+    font-family:system-ui, -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  nav{
+    padding:8px 0 14px 0;
+    border-bottom:1px solid var(--border);
+    margin-bottom:12px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  nav a{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#020617;
+    color:var(--muted);
+  }
+  nav a.active{
+    background:#22c55e;
+    color:#020617;
+    border-color:#16a34a;
+  }
+  h1{
+    margin:0 0 6px 0;
+    font-size:22px;
+  }
+  .credit{
+    margin:4px 0 10px 0;
+    color:var(--muted);
+    font-size:14px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:12px;
+    margin-bottom:12px;
+  }
+  label{
+    display:block;
+    margin-bottom:4px;
+    color:var(--muted);
+    font-size:14px;
+  }
+  input,select,button{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:#020617;
+    color:var(--ink);
+    font-size:16px;
+  }
+  select{
+    cursor:pointer;
+  }
+  input::placeholder{
+    color:#64748b;
+  }
+  button{
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.primary{
+    background:#22c55e;
+    color:#020617;
+    border-color:#16a34a;
+  }
+  button.muted{
+    background:#0b1220;
+    color:var(--muted);
+  }
+  button:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+  }
+  .pill{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:var(--pill);
+    font-size:13px;
+    margin-right:6px;
+  }
+  .pill.time{
+    display:none;
+  }
+  .op{
+    min-height:90px;
+    font-size:16px;
+    line-height:1.4;
+  }
+  .btns{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+  }
+  .btns button{
+    flex:1;
+  }
+  .box{
+    border-radius:12px;
+    padding:10px;
+    margin-top:8px;
+  }
+  .box.ok{
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+  }
+  .box.error{
+    background:var(--error-soft);
+    border:1px solid var(--error);
+  }
+  .hint{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:6px;
+  }
+  @media (min-width:640px){
+    body{max-width:720px;margin:0 auto;}
+  }
 </style>
 </head>
 <body>
-<nav style="padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;">
-    <a href="pm1_razones_prop_porcent_OFFLINE.html" style="background:#34d399;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Razones</a>
-    <a href="pm1_regla_de_tres_OFFLINE.html" style="background:#a78bfa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Regla 3</a>
-    <a href="pm1_mcm_mcd_quiz_OFFLINE.html" style="background:#60a5fa;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">MCM/MCD</a>
-    <a href="pm1_exponentes_OFFLINE (2).html" style="background:#fbbf24;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exponentes</a>
-    <a href="pm1_exponentes_avanzados_OFFLINE_RESET.html" style="background:#38bdf8;color:var(--bg);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;">Exp. Avanz</a>
+
+<nav>
+  <a href="pm1_razones_prop_porcent_OFFLINE.html" class="active">Razones</a>
+  <a href="pm1_regla_de_tres_OFFLINE.html">Regla 3</a>
+  <a href="pm1_mcm_mcd_quiz_OFFLINE.html">MCM/MCD</a>
+  <a href="pm1_exponentes_OFFLINE (2).html">Exponentes</a>
+  <a href="pm1_exponentes_avanzados_OFFLINE_RESET.html">Exp. avanzados</a>
 </nav>
 
 <div class="card">
   <h1>PENSAMIENTO MATEMÁTICO 1: Razones, Proporciones y Porcentajes</h1>
-  <p class="credit">by Mtra. Adriana Arroyo • Versión offline (sin internet) • Tap únicamente • Tolerancia ±0.1</p>
+  <p class="credit">
+    by Mtra. Adriana Arroyo • Versión offline • 10 ítems por sesión<br>
+    Responde con número decimal; la app acepta un margen de ±0.1.
+  </p>
 </div>
+
 <div class="card">
-  <label>Nombre</label><input id="studentName" placeholder="Nombre y apellidos">
-  <label>Grupo</label><input id="studentGroup" placeholder="p. ej., 1°A">
-  <label>Modo</label><select id="mode">
+  <label>Nombre (opcional)</label>
+  <input id="studentName" placeholder="Nombre y apellidos">
+  <label>Grupo (opcional)</label>
+  <input id="studentGroup" placeholder="p. ej., 1°A">
+  <label>Modo</label>
+  <select id="mode">
     <option value="mixed" selected>Mixto (razón + proporción + porcentaje)</option>
     <option value="ratio">Solo razones</option>
     <option value="proportion">Solo proporciones</option>
     <option value="percent">Solo porcentajes</option>
   </select>
-  <label>Temporizador (minutos, opcional)</label><select id="timer">
-    <option value="0" selected>Sin tiempo</option><option>5</option><option>8</option><option>10</option>
+  <label>Temporizador (minutos, opcional)</label>
+  <select id="timer">
+    <option value="0" selected>Sin tiempo</option>
+    <option value="5">5</option>
+    <option value="8">8</option>
+    <option value="10">10</option>
   </select>
   <button id="startBtn" class="primary">Iniciar (10 ítems)</button>
 </div>
+
 <div class="card">
-  <div id="operation" class="op">—</div>
+  <div id="operation" class="op">Da clic en <strong>Iniciar</strong> para comenzar.</div>
   <input id="answer" inputmode="decimal" placeholder="Escribe la respuesta (número)">
   <div class="btns">
     <button id="checkBtn" class="primary">Comprobar</button>
@@ -57,84 +200,353 @@
   </div>
   <div id="feedback" style="min-height:110px;margin-top:10px"></div>
 </div>
+
 <div class="card">
-  <span id="counter" class="pill">Ítem —/10</span>
+  <span id="count" class="pill">Ítem —/10</span>
   <span id="score" class="pill">Aciertos 0</span>
   <span id="streak" class="pill">Racha 0</span>
-  <span id="time" class="pill" style="display:none">Tiempo 00:00</span>
+  <span id="time" class="pill time">Tiempo 00:00</span>
 </div>
 
 <script>
 (function(){
-  function $(s){return document.querySelector(s)}
-  function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-  function choice(arr){return arr[rand(0,arr.length-1)]}
-  function fixed2(x){return Number(x.toFixed(2));}
+  function $(sel){ return document.querySelector(sel); }
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function choice(arr){ return arr[randInt(0,arr.length-1)]; }
+  function fixed2(n){ return parseFloat(n.toFixed(2)); }
 
-  // Conjuntos de datos amigables para cálculo mental
-  function pctOptions(){return [5,10,15,20,25,40,50];}
-  function priceBase(){return choice([80,90,100,120,140]);}
+  // =========================
+  // Contextos de problemas
+  // =========================
 
-  var ratioContexts=[
-    function(){ var girls=rand(6,12), boys=rand(6,12); var val=fixed2(girls/boys);
-      return {type:'ratio', text:'En un grupo hay '+girls+' mujeres y '+boys+' hombres. ¿Razón mujeres:hombres en decimal?<br><strong>Respuesta = ?</strong>',
-      answer:String(val),
-      steps:'<div class="box"><strong>Razón</strong><br>'+girls+'/'+boys+' = <strong>'+val+'</strong>.</div>'};},
-    function(){ var ahorro=rand(100,200), meta=ahorro*rand(2,4); var val=fixed2(ahorro/meta);
-      return {type:'ratio', text:'Adriana ahorró $'+ahorro+' de una meta de $'+meta+'. ¿Qué parte representa su ahorro (decimal)?<br><strong>Respuesta = ?</strong>',
-      answer:String(val),
-      steps:'<div class="box"><strong>Razón</strong><br>'+ahorro+'/'+meta+' = <strong>'+val+'</strong>.</div>'};}
+  var ratioContexts = [
+    function(){
+      var meta = randInt(400,800);
+      var ahorro = randInt(50,meta-50);
+      var r = fixed2(ahorro/meta);
+      return {
+        type:'ratio',
+        text:'Estás ahorrando para una meta de $'+meta+
+             '. Hasta ahora llevas $'+ahorro+
+             '.<br><br>¿Qué parte de la meta has ahorrado? '+
+             'Escribe la razón como número decimal: ahorro/meta.<br><strong>Respuesta = ?</strong>',
+        answer:r,
+        explain:'<div class="box ok"><strong>Razón ahorro/meta</strong><br>'+
+                'Razón = '+ahorro+'/'+meta+' = '+r+'.</div>'
+      };
+    },
+    function(){
+      var niñas = randInt(8,16);
+      var niños = randInt(5,15);
+      var total = niñas+niños;
+      var r = fixed2(niñas/total);
+      return {
+        type:'ratio',
+        text:'En un grupo hay '+niñas+' niñas y '+niños+
+             ' niños.<br><br>¿Cuál es la razón niñas/total como número decimal?<br><strong>Respuesta = ?</strong>',
+        answer:r,
+        explain:'<div class="box ok"><strong>Razón niñas/total</strong><br>'+
+                'Total = '+niñas+' + '+niños+' = '+total+
+                '.<br>Razón = '+niñas+'/'+total+' = '+r+'.</div>'
+      };
+    },
+    function(){
+      var cuadernos = randInt(6,18);
+      var plumas = randInt(3,12);
+      var r = fixed2(cuadernos/plumas);
+      return {
+        type:'ratio',
+        text:'En una papelería se vendieron '+cuadernos+
+             ' cuadernos y '+plumas+
+             ' plumas.<br><br>¿Cuál es la razón cuadernos/plumas como número decimal?<br><strong>Respuesta = ?</strong>',
+        answer:r,
+        explain:'<div class="box ok"><strong>Razón cuadernos/plumas</strong><br>'+
+                'Razón = '+cuadernos+'/'+plumas+' = '+r+'.</div>'
+      };
+    }
   ];
 
-  var proportionContexts=[
-    function(){ var q1=rand(2,4), unit=rand(10,20), total1=q1*unit; var q2=q1; while(q2===q1){ q2=rand(3,6); }
-      var ans=fixed2(total1*q2/q1);
-      return {type:'proportion', text:'En una tienda, '+q1+' libretas cuestan $'+total1+'. ¿Cuánto costarán '+q2+' libretas?<br><strong>Respuesta = ?</strong>',
-      answer:String(ans),
-      steps:'<div class="box"><strong>Regla de tres (directa)</strong><br>x = ('+total1+'×'+q2+')/'+q1+' = <strong>$'+ans+'</strong>.</div>'};},
-    function(){ var invMes=rand(200,400), meses1=rand(2,4), rend1=invMes*meses1; var meses2=meses1; while(meses2===meses1){ meses2=rand(3,6); }
-      var ans=fixed2(rend1*meses2/meses1);
-      return {type:'proportion', text:'Un ahorro rinde '+rend1+' puntos en '+meses1+' meses (proporcional). ¿Cuántos en '+meses2+' meses?<br><strong>Respuesta = ?</strong>',
-      answer:String(ans),
-      steps:'<div class="box"><strong>Regla de tres (directa)</strong><br>x = ('+rend1+'×'+meses2+')/'+meses1+' = <strong>'+ans+'</strong>.</div>'};}
+  var proportionContexts = [
+    function(){
+      var q1 = randInt(2,4);
+      var precioUnidad = randInt(10,25);
+      var total1 = q1*precioUnidad;
+      var q2 = q1;
+      while(q2===q1){ q2 = randInt(5,9); }
+      var ans = total1*q2/q1;
+      ans = fixed2(ans);
+      return {
+        type:'proportion',
+        text:'En una tienda, '+q1+' libretas cuestan $'+total1+
+             '.<br><br>¿Cuánto costarán '+q2+
+             ' libretas? (usa proporción directa).<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Proporción directa</strong><br>'+
+                q1+' libretas → $'+total1+
+                '<br>'+q2+' libretas → x'+
+                '<br>x = ('+total1+'×'+q2+')/'+q1+
+                ' = <strong>$'+ans+'</strong>.</div>'
+      };
+    },
+    function(){
+      var km = randInt(80,140);
+      var litros1 = randInt(4,7);
+      var litros2 = randInt(8,12);
+      var rendimiento = km/litros1;
+      var ans = fixed2(rendimiento*litros2);
+      return {
+        type:'proportion',
+        text:'Un automóvil recorre '+km+' km con '+litros1+
+             ' litros de gasolina.<br><br>'+
+             'Si mantiene el mismo rendimiento, ¿cuántos kilómetros recorrerá con '+
+             litros2+' litros?<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Proporción directa</strong><br>'+
+                'Rendimiento = '+km+'/'+litros1+
+                ' = '+fixed2(rendimiento)+' km por litro.'+
+                '<br>Con '+litros2+' litros: '+fixed2(rendimiento)+'×'+litros2+
+                ' = <strong>'+ans+' km</strong>.</div>'
+      };
+    },
+    function(){
+      var invMes = randInt(200,400);
+      var meses1 = randInt(2,4);
+      var monto1 = invMes*meses1;
+      var meses2 = meses1;
+      while(meses2===meses1){ meses2 = randInt(5,8); }
+      var ans = fixed2(invMes*meses2);
+      return {
+        type:'proportion',
+        text:'Ahorra $'+invMes+' cada mes.'+
+             '<br>En '+meses1+' meses juntará $'+monto1+
+             '.<br><br>¿Cuánto ahorrará en '+meses2+
+             ' meses si mantiene la misma cantidad mensual?<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Proporción directa</strong><br>'+
+                'Ahorro mensual = $'+invMes+
+                '<br>En '+meses2+' meses: '+invMes+'×'+meses2+
+                ' = <strong>$'+ans+'</strong>.</div>'
+      };
+    }
   ];
 
-  var percentContexts=[
-    function(){ var base=priceBase(), pct=choice(pctOptions()), ans=fixed2(base*(1-pct/100));
-      return {type:'percent', text:'Una mochila cuesta $'+base+' y tiene '+pct+'% de descuento. ¿Precio final?<br><strong>Respuesta = ?</strong>',
-      answer:String(ans),
-      steps:'<div class="box"><strong>Descuento</strong><br>'+base+'×(1 - '+pct+'%) = <strong>$'+ans+'</strong>.</div>'};},
-    function(){ var base=priceBase(), pct=choice(pctOptions()), ans=fixed2(base*(1+pct/100));
-      return {type:'percent', text:'Un ahorro de $'+base+' crece '+pct+'% en un mes. ¿Monto final?<br><strong>Respuesta = ?</strong>',
-      answer:String(ans),
-      steps:'<div class="box"><strong>Aumento</strong><br>'+base+'×(1 + '+pct+'%) = <strong>$'+ans+'</strong>.</div>'};},
-    function(){ var deuda=priceBase()+60, pct=choice([10,20,25,50]); var pago=fixed2(deuda*pct/100); var ans=fixed2(deuda - pago);
-      return {type:'percent', text:'Tienes una deuda de $'+deuda+'. Si pagas el '+pct+'%, ¿cuánto queda por pagar?<br><strong>Respuesta = ?</strong>',
-      answer:String(ans),
-      steps:'<div class="box"><strong>Deuda</strong><br>Pago = '+deuda+'×'+pct+'% = '+pago+'; restante = <strong>$'+ans+'</strong>.</div>'};}
+  function priceBase(){
+    return randInt(120,380);
+  }
+  function pctOptions(){
+    return [5,10,12,15,20,25];
+  }
+
+  var percentContexts = [
+    function(){
+      var base = priceBase();
+      var pct = choice(pctOptions());
+      var ans = fixed2(base*(1-pct/100));
+      return {
+        type:'percent',
+        text:'Una mochila cuesta $'+base+
+             ' y tiene un descuento de '+pct+
+             '%.<br><br>¿Cuál es el precio final?<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Descuento</strong><br>'+
+                'Precio final = '+base+'×(1 − '+pct+'%) = <strong>$'+ans+'</strong>.</div>'
+      };
+    },
+    function(){
+      var base = priceBase();
+      var pct = choice(pctOptions());
+      var ans = fixed2(base*(1+pct/100));
+      return {
+        type:'percent',
+        text:'Tu ahorro actual es de $'+base+
+             '.<br>Si aumenta '+pct+
+             '% en un mes, ¿cuál será el nuevo monto?<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Aumento porcentual</strong><br>'+
+                'Monto final = '+base+'×(1 + '+pct+'%) = <strong>$'+ans+'</strong>.</div>'
+      };
+    },
+    function(){
+      var base = priceBase();
+      var pct = choice(pctOptions());
+      var ans = fixed2(base*pct/100);
+      return {
+        type:'percent',
+        text:'¿Cuánto es el '+pct+
+             '% de $'+base+
+             '?<br><br>Escribe solo la cantidad en pesos.<br><strong>Respuesta = ?</strong>',
+        answer:ans,
+        explain:'<div class="box ok"><strong>Parte de un total</strong><br>'+
+                pct+'% de '+base+' = '+base+'×'+pct+'/100 = <strong>$'+ans+'</strong>.</div>'
+      };
+    }
   ];
 
   function buildItem(mode){
-    var m=mode; if(m==='mixed') m=choice(['ratio','proportion','percent']);
-    var list=(m==='ratio')?ratioContexts:(m==='proportion')?proportionContexts:percentContexts;
-    var p=choice(list)();
-    return { type:p.type, text:p.text, correct:String(p.answer), explain:p.steps };
+    if(mode === 'ratio')      return choice(ratioContexts)();
+    if(mode === 'proportion') return choice(proportionContexts)();
+    if(mode === 'percent')    return choice(percentContexts)();
+    // mixto
+    var bucket = choice([ratioContexts, proportionContexts, percentContexts]);
+    return choice(bucket)();
   }
 
-  var s={items:[],i:0,score:0,streak:0,left:0,timerId:null};
-  var op=$('#operation'), ans=$('#answer'), fb=$('#feedback'), counter=$('#counter'), score=$('#score'), streak=$('#streak'), timeEl=$('#time');
+  // =========================
+  // Estado de la sesión
+  // =========================
+  var state = {
+    items:[],
+    index:0,
+    score:0,
+    streak:0,
+    left:0,
+    timerId:null
+  };
 
-  function startTimer(mins){
-    if(mins<=0){ timeEl.style.display='none'; return; }
-    s.left = mins*60; timeEl.style.display='inline-block'; tick();
-    s.timerId = setInterval(function(){ s.left--; tick(); if(s.left<=0){ clearInterval(s.timerId); finish(); }}, 1000);
+  // =========================
+  // Referencias a elementos
+  // =========================
+  var operationEl = $('#operation');
+  var answerEl    = $('#answer');
+  var feedbackEl  = $('#feedback');
+  var countEl     = $('#count');
+  var scoreEl     = $('#score');
+  var streakEl    = $('#streak');
+  var timeEl      = $('#time');
+  var startBtn    = $('#startBtn');
+  var checkBtn    = $('#checkBtn');
+  var nextBtn     = $('#nextBtn');
+
+  function updateTimePill(){
+    var m = Math.max(0, Math.floor(state.left/60));
+    var s = Math.max(0, state.left%60);
+    timeEl.textContent = 'Tiempo '+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
   }
-  function tick(){ var m = Math.max(0, Math.floor(s.left/60)); var sec = Math.max(0, s.left%60);
-    timeEl.textContent = 'Tiempo '+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0'); }
 
-  function gen(){ var arr=[], m=$('#mode').value; for(var i=0;i<10;i++) arr.push(buildItem(m)); s.items=arr; s.i=0; s.score=0; s.streak=0; fb.innerHTML=''; ans.value=''; }
-  function render(){ var it=s.items[s.i]; op.innerHTML=it.text; counter.textContent='Ítem '+(s.i+1)+'/10'; fb.innerHTML=''; ans.value=''; }
-  function check(){ var it=s.items[s.i]; var val=String(ans.value).replace(',','.').trim(); var nv=parseFloat(val), nc=parseFloat(it.correct);
-    var ok=(!isNaN(nv)&&!isNaN(nc))?(Math.abs(nv-nc)<=0.1):(val===it.correct);
-    if(ok){ s.score++; s.streak++; fb.innerHTML='<p style="color:#22c55e">¡Bien!</p>'+it.explain; }
-    else{ s.streak=0; fb.innerHTML='<p style="color:#ef4444">Incorrecto.</p><p>Solución: <strong>'+it.correct+'</strong></p>'+it.explain; }
+  function startTimer(minutes){
+    if(state.timerId){
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+    if(minutes<=0){
+      timeEl.style.display = 'none';
+      return;
+    }
+    state.left = minutes*60;
+    timeEl.style.display = 'inline-block';
+    updateTimePill();
+    state.timerId = setInterval(function(){
+      state.left--;
+      updateTimePill();
+      if(state.left<=0){
+        clearInterval(state.timerId);
+        state.timerId = null;
+        finish();
+      }
+    },1000);
+  }
+
+  function renderCurrent(){
+    var item = state.items[state.index];
+    operationEl.innerHTML = item.text;
+    countEl.textContent = 'Ítem '+(state.index+1)+'/10';
+    feedbackEl.innerHTML = '';
+    answerEl.value = '';
+    answerEl.focus();
+  }
+
+  function startQuiz(){
+    var mode = $('#mode').value;
+    var mins = parseInt($('#timer').value,10) || 0;
+
+    state.items = [];
+    for(var i=0;i<10;i++){
+      state.items.push(buildItem(mode));
+    }
+    state.index = 0;
+    state.score = 0;
+    state.streak = 0;
+
+    scoreEl.textContent = 'Aciertos 0';
+    streakEl.textContent = 'Racha 0';
+
+    startTimer(mins);
+    renderCurrent();
+  }
+
+  function checkAnswer(){
+    if(!state.items.length) return;
+    var item = state.items[state.index];
+    var raw = String(answerEl.value || '').replace(',', '.').trim();
+    if(!raw){
+      feedbackEl.innerHTML = '<p style="color:#fca5a5">Escribe una respuesta antes de comprobar.</p>';
+      return;
+    }
+    var userVal = parseFloat(raw);
+    var correct = item.answer;
+    var ok = (!isNaN(userVal) && Math.abs(userVal - correct) <= 0.1);
+
+    if(ok){
+      state.score++;
+      state.streak++;
+      scoreEl.textContent = 'Aciertos '+state.score;
+      streakEl.textContent = 'Racha '+state.streak;
+      feedbackEl.innerHTML = '<div class="box ok"><strong>¡Bien!</strong><br>Tu respuesta es correcta.</div>'+item.explain;
+    }else{
+      state.streak = 0;
+      streakEl.textContent = 'Racha 0';
+      feedbackEl.innerHTML =
+        '<div class="box error"><strong>Revisa.</strong><br>'+
+        'Respuesta correcta: <strong>'+correct+'</strong>, tú escribiste '+(isNaN(userVal)?'—':userVal)+'.</div>'+
+        item.explain;
+    }
+  }
+
+  function nextItem(){
+    if(!state.items.length) return;
+    if(state.index < state.items.length-1){
+      state.index++;
+      renderCurrent();
+    }else{
+      finish();
+    }
+  }
+
+  function finish(){
+    if(state.timerId){
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+    operationEl.innerHTML =
+      'Has terminado los 10 ítems. Tu puntaje fue <strong>'+
+      state.score+'</strong> de '+state.items.length+'.';
+    feedbackEl.innerHTML =
+      '<p class="hint">Puedes iniciar de nuevo para practicar más.</p>';
+  }
+
+  startBtn.addEventListener('click', startQuiz);
+  checkBtn.addEventListener('click', checkAnswer);
+  nextBtn.addEventListener('click', nextItem);
+
+  answerEl.addEventListener('keydown', function(ev){
+    if(ev.key === 'Enter'){
+      ev.preventDefault();
+      checkAnswer();
+    }
+  });
+})();
+</script>
+
+<script>
+// Registro del Service Worker para modo offline (ruta relativa)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(reg){ console.log('SW registrado:', reg.scope); })
+      .catch(function(err){ console.log('Fallo registro de SW:', err); });
+  });
+}
+</script>
+
+</body>
+</html>
