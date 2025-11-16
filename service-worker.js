@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pm1-cache-v3';  // nueva versión de caché
+const CACHE_NAME = 'pm1-cache-v4';  // nueva versión de caché
 
 const URLS_TO_CACHE = [
   'index.html',
@@ -7,6 +7,7 @@ const URLS_TO_CACHE = [
   'pm1_mcm_mcd_quiz_OFFLINE.html',
   'pm1_exponentes_OFFLINE (2).html',
   'pm1_exponentes_avanzados_OFFLINE_RESET.html',
+  'pm1_exponentes_especiales_OFFLINE.html',
   'manifest.json',
   'icon_192.png',
   'icon_512.png'
