@@ -667,35 +667,35 @@
     }
 
     function checkAnswer() {
-      const q = currentQuestions[currentIndex];
-      const userValue = answerInput.value.trim();
+    const userAns = Number(answerInput.value.trim());
+    const current = questions[currentIndex];
 
-      if (userValue === "") {
-        alert("Escribe una respuesta antes de continuar.");
+    if (isNaN(userAns)) {
+        feedback.textContent = "Por favor escribe un número válido.";
+        feedback.className = "feedback_error";
         return;
-      }
-
-      const userNumber = Number(userValue);
-      const correct = q.answer;
-
-      if (Math.abs(userNumber - correct) < 0.0001) {
-        score++;
-        feedback.textContent = "Correcto ✔";
-        feedback.className = "feedback ok";
-      } else {
-        feedback.textContent =
-          "Incorrecto ✘. La respuesta correcta era: " + correct + ".\nExplicación: " + q.explanation;
-        feedback.className = "feedback error";
-      }
-
-      currentIndex++;
-
-      if (currentIndex < TOTAL_QUESTIONS) {
-        setTimeout(showQuestion, 1300);
-      } else {
-        setTimeout(showResult, 1300);
-      }
     }
+
+    if (userAns === current.answer) {
+        feedback.textContent = "✔ Correcto";
+        feedback.className = "feedback_ok";
+        score++;
+    } else {
+        feedback.textContent = 
+        `✘ Incorrecto.  
+Respuesta correcta: ${current.answer}  
+Explicación: ${current.explanation}`;
+        feedback.className = "feedback_error";
+    }
+
+    currentIndex++;
+    progress.textContent = `${currentIndex} / ${questions.length}`;
+
+    if (currentIndex >= questions.length) {
+        finishQuiz();
+    }
+}
+
 
     function showResult() {
       quizSection.style.display = "none";
