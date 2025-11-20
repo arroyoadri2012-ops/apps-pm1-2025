@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Operaciones Combinadas – Niveles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e5edf5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      margin: 16px;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      margin-bottom: 4px;
+      color: #1f2933;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      color: #1f2933;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #5a6675;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 4px;
+      color: #1f2933;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd2e1;
+      font-size: 0.95rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .btn-primary:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .section {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .student-summary {
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .student-summary p {
+      margin: 2px 0;
+    }
+
+    .question-box {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .question-number {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      color: #111827;
+    }
+
+    .answer-input {
+      margin-top: 8px;
+    }
+
+    .answer-input input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd2e1;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .feedback {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      min-height: 20px;
+    }
+
+    .feedback.ok {
+      color: #15803d;
+    }
+
+    .feedback.error {
+      color: #b91c1c;
+    }
+
+    .progress {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    .result-box {
+      background: #ecfeff;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 12px;
+      border: 1px solid #67e8f9;
+    }
+
+    .result-box p {
+      margin: 4px 0;
+      font-size: 0.95rem;
+    }
+
+    .muted {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>OPERACIONES COMBINADAS</h1>
+    <div class="subtitle">Aplicación por niveles · 15 ítems por sesión</div>
+
+    <!-- Configuración inicial -->
+    <div id="config-section" class="section">
+      <h2>Datos del estudiante</h2>
+      <label for="studentName">Nombre completo:</label>
+      <input type="text" id="studentName" placeholder="Ej. Ana López">
+
+      <label for="studentGroup">Grupo:</label>
+      <input type="text" id="studentGroup" placeholder="Ej. 1°A">
+
+      <label for="levelSelect">Nivel:</label>
+      <select id="levelSelect">
+        <option value="basico">Básico</option>
+        <option value="intermedio">Intermedio</option>
+        <option value="avanzado">Avanzado</option>
+        <option value="ampliado">Ampliado</option>
+      </select>
+
+      <button class="btn-primary" id="startBtn">Iniciar ejercicio (15 ítems)</button>
+    </div>
+
+    <!-- Resumen siempre visible arriba del quiz -->
+    <div id="student-summary" class="student-summary" style="display:none;">
+      <p><strong>Nombre:</strong> <span id="summaryName"></span></p>
+      <p><strong>Grupo:</strong> <span id="summaryGroup"></span></p>
+      <p><strong>Nivel:</strong> <span id="summaryLevel"></span></p>
+    </div>
+
+    <!-- Sección del quiz -->
+    <div id="quiz-section" class="section" style="display:none;">
+      <div class="question-box">
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question-text" id="questionText"></div>
+
+        <div class="answer-input">
+          <label for="answerInput">Escribe tu resultado:</label>
+          <input type="number" id="answerInput" inputmode="decimal" autocomplete="off">
+        </div>
+
+        <button class="btn-primary" id="answerBtn">Responder</button>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="progress" id="progress"></div>
+      </div>
+      <div class="muted">Resuelve respetando la jerarquía de operaciones.</div>
+    </div>
+
+    <!-- Resultado final -->
+    <div id="result-section" class="section" style="display:none;">
+      <h2>Resumen final</h2>
+      <div class="result-box">
+        <p><strong>Nombre:</strong> <span id="resultName"></span></p>
+        <p><strong>Grupo:</strong> <span id="resultGroup"></span></p>
+        <p><strong>Nivel:</strong> <span id="resultLevel"></span></p>
+        <p><strong>Puntuación:</strong> <span id="resultScore"></span> / <span id="resultTotal"></span></p>
+        <p><strong>Fecha y hora:</strong> <span id="resultDateTime"></span></p>
+      </div>
+      <p class="muted">Toma una captura de pantalla de este resumen.</p>
+      <button class="btn-secondary" id="restartBtn">Volver a empezar</button>
+    </div>
+  </div>
+
+  <script>
+    // Banco de preguntas por nivel
+    const questionBanks = {
+      basico: [
+        { text: "8 + 6 ÷ 3", answer: 10 },
+        { text: "12 - 4 × 2", answer: 4 },
+        { text: "(5 + 3) × 2", answer: 16 },
+        { text: "18 ÷ (2 + 1)", answer: 6 },
+        { text: "20 - 6 ÷ 2 + 1", answer: 18 },
+        { text: "4 × (3 + 1) - 5", answer: 11 },
+        { text: "30 ÷ 5 + 4 × 2", answer: 14 },
+        { text: "(9 - 3) × (2 + 1)", answer: 18 },
+        { text: "15 - 6 + 2 × 3", answer: 15 },
+        { text: "8 ÷ 2 × (3 + 1)", answer: 16 },
+        { text: "7 + 3 × 4 - 5", answer: 14 },
+        { text: "(6 + 2) × 3 - 4", answer: 20 },
+        { text: "24 ÷ 3 + 5 - 2", answer: 11 },
+        { text: "5 × 2 + 18 ÷ 3", answer: 16 },
+        { text: "10 + 12 ÷ 4 - 3", answer: 10 }
+      ],
+      intermedio: [
+        { text: "(12 + 8) ÷ 4 × 3", answer: 15 },
+        { text: "18 ÷ 3 + 6 × 2", answer: 18 },
+        { text: "25 - 3 × (4 + 1)", answer: 10 },
+        { text: "(30 ÷ 5) + (9 - 4)", answer: 11 },
+        { text: "6 × (8 ÷ 4 + 2)", answer: 24 },
+        { text: "40 ÷ (5 × 2) + 3", answer: 7 },
+        { text: "(7 + 5) × (6 - 2)", answer: 48 },
+        { text: "20 - (18 ÷ 3) × 2", answer: 8 },
+        { text: "(16 ÷ 4) × (9 ÷ 3)", answer: 12 },
+        { text: "50 ÷ (10 - 5) + 6", answer: 16 },
+        { text: "(8 × 3) - (4 ÷ 2)", answer: 22 },
+        { text: "9 × (5 - 3) + 4", answer: 22 },
+        { text: "(14 + 2) × 3 - 5", answer: 43 },
+        { text: "32 ÷ (4 + 4) × 6", answer: 24 },
+        { text: "(21 - 9) + 4 × 2", answer: 20 }
+      ],
+      avanzado: [
+        { text: "(4^2 × 3) ÷ (18 ÷ 3)", answer: 8 },
+        { text: "√64 + 5 × 2", answer: 18 },
+        { text: "(27 ÷ 3^2) + (5 × 4)", answer: 23 },
+        { text: "(2^3 × 4) - √49", answer: 25 },
+        { text: "6 × (9 - √25)", answer: 24 },
+        { text: "√81 ÷ (7 - 4)", answer: 3 },
+        { text: "(3 × 5^2) - (2 × 4^2)", answer: 43 },
+        { text: "(12 ÷ 3) × √16", answer: 16 },
+        { text: "(50 - 2^4) ÷ 2", answer: 17 },
+        { text: "2^4 + √36 × 2", answer: 28 },
+        { text: "3 × (√49 + 5)", answer: 36 },
+        { text: "(6 + 2^3) × √9", answer: 42 },
+        { text: "5 × 5 - √121", answer: 14 },
+        { text: "(4^2 + 2^3) - √16", answer: 20 },
+        { text: "2 × √25 + 3^2", answer: 19 }
+      ],
+      ampliado: [
+        { text: "4 × (3 + 5) - (6 ÷ 2) + 7", answer: 36 },
+        { text: "(18 ÷ 3 + 2^3) × (5 - 4) + 6", answer: 20 },
+        { text: "(25 - 9 + 4 × 2) ÷ (6 ÷ 2)", answer: 8 },
+        { text: "10 + (30 ÷ 5 - 2 × 3) + 4 × 2", answer: 18 },
+        { text: "(40 ÷ 8 + 7) × 3 - (12 - 4)", answer: 28 },
+        { text: "6 × (8 ÷ 4 + 2) + 5 - 3", answer: 26 },
+        { text: "(32 ÷ 4) + (18 ÷ 3) + (9 - 5)", answer: 18 },
+        { text: "(45 ÷ 5 - 3) × (6 - 2)", answer: 24 },
+        { text: "50 - (18 ÷ 3) × 2 + 4", answer: 42 },
+        { text: "(16 + 8) ÷ 4 + 3 × 2 - 5", answer: 7 },
+        { text: "3 × (12 ÷ 4 + 5) - (9 - 3)", answer: 18 },
+        { text: "(28 ÷ 7 + 6) × 2 - 10", answer: 10 },
+        { text: "60 ÷ (5 × 2) + 7 × 2 - 3", answer: 17 },
+        { text: "(36 ÷ 6) + (8 × 2) - (10 ÷ 5)", answer: 20 },
+        { text: "(24 ÷ 3) × (9 - 5) + 2", answer: 34 }
+      ]
+    };
+
+    const TOTAL_QUESTIONS = 15;
+
+    let currentLevel = "basico";
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let studentName = "";
+    let studentGroup = "";
+
+    const startBtn = document.getElementById("startBtn");
+    const answerBtn = document.getElementById("answerBtn");
+    const restartBtn = document.getElementById("restartBtn");
+
+    const studentNameInput = document.getElementById("studentName");
+    const studentGroupInput = document.getElementById("studentGroup");
+    const levelSelect = document.getElementById("levelSelect");
+
+    const configSection = document.getElementById("config-section");
+    const quizSection = document.getElementById("quiz-section");
+    const resultSection = document.getElementById("result-section");
+    const studentSummary = document.getElementById("student-summary");
+
+    const summaryName = document.getElementById("summaryName");
+    const summaryGroup = document.getElementById("summaryGroup");
+    const summaryLevel = document.getElementById("summaryLevel");
+
+    const questionNumber = document.getElementById("questionNumber");
+    const questionText = document.getElementById("questionText");
+    const answerInput = document.getElementById("answerInput");
+    const feedback = document.getElementById("feedback");
+    const progress = document.getElementById("progress");
+
+    const resultName = document.getElementById("resultName");
+    const resultGroup = document.getElementById("resultGroup");
+    const resultLevel = document.getElementById("resultLevel");
+    const resultScore = document.getElementById("resultScore");
+    const resultTotal = document.getElementById("resultTotal");
+    const resultDateTime = document.getElementById("resultDateTime");
+
+    function shuffleArray(arr) {
+      return arr
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+    }
+
+    function nivelLabel(level) {
+      switch (level) {
+        case "basico": return "Básico";
+        case "intermedio": return "Intermedio";
+        case "avanzado": return "Avanzado";
+        case "ampliado": return "Ampliado";
+        default: return level;
+      }
+    }
+
+    function startQuiz() {
+      studentName = studentNameInput.value.trim();
+      studentGroup = studentGroupInput.value.trim();
+      currentLevel = levelSelect.value;
+
+      if (!studentName || !studentGroup) {
+        alert("Por favor escribe tu nombre y grupo antes de iniciar.");
+        return;
+      }
+
+      score = 0;
+      currentIndex = 0;
+      feedback.textContent = "";
+
+      const bank = questionBanks[currentLevel].slice();
+      const shuffled = shuffleArray(bank);
+      currentQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
+
+      summaryName.textContent = studentName;
+      summaryGroup.textContent = studentGroup;
+      summaryLevel.textContent = nivelLabel(currentLevel);
+      studentSummary.style.display = "block";
+
+      configSection.style.display = "none";
+      resultSection.style.display = "none";
+      quizSection.style.display = "block";
+
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = currentQuestions[currentIndex];
+      questionNumber.textContent = "Ejercicio " + (currentIndex + 1) + " de " + TOTAL_QUESTIONS;
+      questionText.textContent = q.text;
+      progress.textContent = "Aciertos hasta ahora: " + score;
+      feedback.textContent = "";
+      feedback.className = "feedback";
+      answerInput.value = "";
+      answerInput.focus();
+    }
+
+    function checkAnswer() {
+      const q = currentQuestions[currentIndex];
+      const userValue = answerInput.value.trim();
+
+      if (userValue === "") {
+        alert("Escribe una respuesta antes de continuar.");
+        return;
+      }
+
+      const userNumber = Number(userValue);
+      const correct = q.answer;
+
+      if (Math.abs(userNumber - correct) < 0.0001) {
+        score++;
+       feedback.textContent = "Correcto ✔";
+        feedback.className = "feedback ok";
+      } else {
+        feedback.textContent = "Incorrecto ✘. La respuesta correcta era: " + correct;
+        feedback.className = "feedback error";
+      }
+
+      currentIndex++;
+
+      if (currentIndex < TOTAL_QUESTIONS) {
+        setTimeout(showQuestion, 900);
+      } else {
+        setTimeout(showResult, 900);
+      }
+    }
+
+    function showResult() {
+      quizSection.style.display = "none";
+      resultSection.style.display = "block";
+
+      resultName.textContent = studentName;
+      resultGroup.textContent = studentGroup;
+      resultLevel.textContent = nivelLabel(currentLevel);
+      resultScore.textContent = score;
+      resultTotal.textContent = TOTAL_QUESTIONS;
+
+      const now = new Date();
+      const formatted = now.toLocaleString("es-MX", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      resultDateTime.textContent = formatted;
+    }
+
+    function restartQuiz() {
+      configSection.style.display = "block";
+      quizSection.style.display = "none";
+      resultSection.style.display = "none";
+      feedback.textContent = "";
+      progress.textContent = "";
+    }
+
+    startBtn.addEventListener("click", startQuiz);
+    answerBtn.addEventListener("click", checkAnswer);
+    restartBtn.addEventListener("click", restartQuiz);
+
+    answerInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        checkAnswer();
+      }
+    });
+  </script>
+</body>
+</html>
