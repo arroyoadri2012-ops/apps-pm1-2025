@@ -1,740 +1,458 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Operaciones Combinadas – Niveles</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     body {
       margin: 0;
       padding: 0;
-      background: #e5edf5;
+      background: #e9f0fb;
       display: flex;
+      align-items: center;
       justify-content: center;
-      align-items: flex-start;
       min-height: 100vh;
     }
-
-    .container {
+    .card {
       background: #ffffff;
-      margin: 16px;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 480px;
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 24px 24px 18px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     }
-
     h1 {
-      font-size: 1.4rem;
       text-align: center;
-      margin-bottom: 4px;
-      color: #1f2933;
+      font-size: 1.4rem;
+      margin: 0 0 4px;
     }
-
-    h2 {
-      font-size: 1.1rem;
-      margin-top: 16px;
-      margin-bottom: 6px;
-      color: #1f2933;
-    }
-
     .subtitle {
       text-align: center;
       font-size: 0.85rem;
-      color: #5a6675;
+      color: #666;
+      margin-bottom: 18px;
+    }
+    .info-box {
+      background: #f5f7fb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
       margin-bottom: 16px;
     }
-
-    label {
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 4px;
-      color: #1f2933;
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
     }
-
-    input[type="text"], select {
-      width: 100%;
-      padding: 8px 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #cbd2e1;
-      font-size: 0.95rem;
-    }
-
-    button {
-      border: none;
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-top: 4px;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: #ffffff;
-      width: 100%;
-    }
-
-    .btn-primary:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
-      color: #111827;
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .section {
-      margin-top: 12px;
-      padding-top: 8px;
-      border-top: 1px solid #e5e7eb;
-    }
-
-    .student-summary {
-      background: #f3f4f6;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .student-summary p {
-      margin: 2px 0;
-    }
-
-    .question-box {
-      background: #f9fafb;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 10px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .question-number {
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-bottom: 4px;
-    }
-
-    .question-text {
-      font-size: 1.1rem;
+    .info-label {
       font-weight: 600;
-      text-align: center;
-      color: #111827;
     }
-
-    .answer-input {
-      margin-top: 8px;
+    .small-label {
+      font-size: 0.8rem;
+      margin-bottom: 4px;
     }
-
-    .answer-input input {
-      width: 100%;
-      padding: 8px 10px;
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    input[type="text"], select {
+      flex: 1;
+      padding: 6px 8px;
       border-radius: 8px;
-      border: 1px solid #cbd2e1;
+      border: 1px solid #ccd4e5;
+      font-size: 0.85rem;
+    }
+    .exercise-header {
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .expression-box {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 12px;
       font-size: 1rem;
       text-align: center;
+      margin-bottom: 10px;
+      border: 1px solid #e0e6f2;
     }
-
-    .feedback {
-      margin-top: 8px;
-      font-size: 0.9rem;
-      min-height: 32px;
-      white-space: pre-line;
-    }
-
-    .feedback.ok {
-      color: #15803d;
-    }
-
-    .feedback.error {
-      color: #b91c1c;
-    }
-
-    .progress {
+    .answer-label {
       font-size: 0.85rem;
-      color: #6b7280;
-      margin-top: 6px;
-      text-align: right;
+      margin-bottom: 4px;
     }
-
-    .result-box {
-      background: #ecfeff;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 12px;
-      border: 1px solid #67e8f9;
-    }
-
-    .result-box p {
-      margin: 4px 0;
+    .answer-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccd4e5;
       font-size: 0.95rem;
+      margin-bottom: 12px;
     }
-
-    .muted {
+    button {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #1464f4;
+      color: white;
+    }
+    button:disabled {
+      background: #a5b4d4;
+      cursor: default;
+    }
+    .score {
+      margin-top: 8px;
       font-size: 0.8rem;
-      color: #6b7280;
-      margin-top: 4px;
+      text-align: right;
+      color: #555;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+    .feedback.ok {
+      background: #e6f6e6;
+      border: 1px solid #9ad79a;
+      color: #205b20;
+    }
+    .feedback.error {
+      background: #fdeaea;
+      border: 1px solid #f2a8a8;
+      color: #842c2c;
+    }
+    .explanation {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      background: #f5f7fb;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #dde4f4;
+    }
+    .footer-text {
+      margin-top: 10px;
+      font-size: 0.75rem;
       text-align: center;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="card">
     <h1>OPERACIONES COMBINADAS</h1>
     <div class="subtitle">Aplicación por niveles · 15 ítems por sesión</div>
 
-    <!-- Configuración inicial -->
-    <div id="config-section" class="section">
-      <h2>Datos del estudiante</h2>
-      <label for="studentName">Nombre completo:</label>
-      <input type="text" id="studentName" placeholder="Ej. Ana López">
-
-      <label for="studentGroup">Grupo:</label>
-      <input type="text" id="studentGroup" placeholder="Ej. 1°A">
-
-      <label for="levelSelect">Nivel:</label>
-      <select id="levelSelect">
-        <option value="basico">Básico</option>
-        <option value="intermedio">Intermedio</option>
-        <option value="avanzado">Avanzado</option>
-        <option value="ampliado">Ampliado</option>
-      </select>
-
-      <button class="btn-primary" id="startBtn">Iniciar ejercicio (15 ítems)</button>
-    </div>
-
-    <!-- Resumen siempre visible arriba del quiz -->
-    <div id="student-summary" class="student-summary" style="display:none;">
-      <p><strong>Nombre:</strong> <span id="summaryName"></span></p>
-      <p><strong>Grupo:</strong> <span id="summaryGroup"></span></p>
-      <p><strong>Nivel:</strong> <span id="summaryLevel"></span></p>
-    </div>
-
-    <!-- Sección del quiz -->
-    <div id="quiz-section" class="section" style="display:none;">
-      <div class="question-box">
-        <div class="question-number" id="questionNumber"></div>
-        <div class="question-text" id="questionText"></div>
-
-        <div class="answer-input">
-          <label for="answerInput">Escribe tu resultado:</label>
-          <input type="number" id="answerInput" inputmode="decimal" autocomplete="off">
-        </div>
-
-        <button class="btn-primary" id="answerBtn">Responder</button>
-
-        <div class="feedback" id="feedback"></div>
-        <div class="progress" id="progress"></div>
+    <div class="info-box">
+      <div class="small-label">Datos del estudiante</div>
+      <div class="input-row">
+        <input type="text" id="nombreInput" placeholder="Nombre" />
+        <input type="text" id="grupoInput" placeholder="Grupo" />
       </div>
-      <div class="muted">Resuelve respetando la jerarquía de operaciones.</div>
+      <div class="input-row">
+        <select id="nivelSelect">
+          <option value="ampliado">Nivel: Ampliado</option>
+          <option value="basico">Nivel: Básico</option>
+          <option value="super">Nivel: Súper avanzado</option>
+        </select>
+        <button id="btnGuardar" style="flex:0 0 110px;font-size:0.8rem;">Guardar datos</button>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nombre:</span>
+        <span id="nombreSpan">---</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Grupo:</span>
+        <span id="grupoSpan">---</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nivel:</span>
+        <span id="nivelSpan">Ampliado</span>
+      </div>
     </div>
 
-    <!-- Resultado final -->
-    <div id="result-section" class="section" style="display:none;">
-      <h2>Resumen final</h2>
-      <div class="result-box">
-        <p><strong>Nombre:</strong> <span id="resultName"></span></p>
-        <p><strong>Grupo:</strong> <span id="resultGroup"></span></p>
-        <p><strong>Nivel:</strong> <span id="resultLevel"></span></p>
-        <p><strong>Puntuación:</strong> <span id="resultScore"></span> / <span id="resultTotal"></span></p>
-        <p><strong>Fecha y hora:</strong> <span id="resultDateTime"></span></p>
+    <div id="quizArea">
+      <div class="exercise-header" id="exerciseHeader">Ejercicio 1 de 15</div>
+      <div class="expression-box" id="expressionText">
+        <!-- expresión aquí -->
       </div>
-      <p class="muted">Toma una captura de pantalla de este resumen.</p>
-      <button class="btn-secondary" id="restartBtn">Volver a empezar</button>
+      <div class="answer-label">Escribe tu resultado:</div>
+      <input type="text" id="answerInput" class="answer-input" autocomplete="off" />
+      <button id="btnResponder">Responder</button>
+      <div class="score" id="scoreText">Aciertos hasta ahora: 0</div>
+      <div id="feedbackContainer"></div>
+    </div>
+
+    <div class="footer-text">
+      Resuelve respetando la jerarquía de operaciones.
     </div>
   </div>
 
   <script>
-    // Banco de preguntas por nivel (con explicación)
-    const questionBanks = {
-      basico: [
-        {
-          text: "8 + 6 ÷ 3",
-          answer: 10,
-          explanation: "Primero 6 ÷ 3 = 2, luego 8 + 2 = 10."
-        },
-        {
-          text: "12 - 4 × 2",
-          answer: 4,
-          explanation: "Primero 4 × 2 = 8, luego 12 - 8 = 4."
-        },
-        {
-          text: "(5 + 3) × 2",
-          answer: 16,
-          explanation: "Primero 5 + 3 = 8, luego 8 × 2 = 16."
-        },
-        {
-          text: "18 ÷ (2 + 1)",
-          answer: 6,
-          explanation: "Primero 2 + 1 = 3, luego 18 ÷ 3 = 6."
-        },
-        {
-          text: "20 - 6 ÷ 2 + 1",
-          answer: 18,
-          explanation: "Primero 6 ÷ 2 = 3, luego 20 - 3 = 17, después 17 + 1 = 18."
-        },
-        {
-          text: "4 × (3 + 1) - 5",
-          answer: 11,
-          explanation: "Primero 3 + 1 = 4, luego 4 × 4 = 16 y 16 - 5 = 11."
-        },
-        {
-          text: "30 ÷ 5 + 4 × 2",
-          answer: 14,
-          explanation: "Primero 30 ÷ 5 = 6 y 4 × 2 = 8, luego 6 + 8 = 14."
-        },
-        {
-          text: "(9 - 3) × (2 + 1)",
-          answer: 18,
-          explanation: "Primero 9 - 3 = 6 y 2 + 1 = 3, luego 6 × 3 = 18."
-        },
-        {
-          text: "15 - 6 + 2 × 3",
-          answer: 15,
-          explanation: "Primero 2 × 3 = 6, luego 15 - 6 = 9 y 9 + 6 = 15."
-        },
-        {
-          text: "8 ÷ 2 × (3 + 1)",
-          answer: 16,
-          explanation: "Primero 3 + 1 = 4, luego 8 ÷ 2 = 4 y 4 × 4 = 16."
-        },
-        {
-          text: "7 + 3 × 4 - 5",
-          answer: 14,
-          explanation: "Primero 3 × 4 = 12, luego 7 + 12 = 19 y 19 - 5 = 14."
-        },
-        {
-          text: "(6 + 2) × 3 - 4",
-          answer: 20,
-          explanation: "Primero 6 + 2 = 8, luego 8 × 3 = 24 y 24 - 4 = 20."
-        },
-        {
-          text: "24 ÷ 3 + 5 - 2",
-          answer: 11,
-          explanation: "Primero 24 ÷ 3 = 8, luego 8 + 5 = 13 y 13 - 2 = 11."
-        },
-        {
-          text: "5 × 2 + 18 ÷ 3",
-          answer: 16,
-          explanation: "Primero 5 × 2 = 10 y 18 ÷ 3 = 6, luego 10 + 6 = 16."
-        },
-        {
-          text: "10 + 12 ÷ 4 - 3",
-          answer: 10,
-          explanation: "Primero 12 ÷ 4 = 3, luego 10 + 3 = 13 y 13 - 3 = 10."
-        }
-      ],
-      intermedio: [
-        {
-          text: "(12 + 8) ÷ 4 × 3",
-          answer: 15,
-          explanation: "Primero 12 + 8 = 20, luego 20 ÷ 4 = 5 y 5 × 3 = 15."
-        },
-        {
-          text: "18 ÷ 3 + 6 × 2",
-          answer: 18,
-          explanation: "Primero 18 ÷ 3 = 6 y 6 × 2 = 12, luego 6 + 12 = 18."
-        },
-        {
-          text: "25 - 3 × (4 + 1)",
-          answer: 10,
-          explanation: "Primero 4 + 1 = 5, luego 3 × 5 = 15 y 25 - 15 = 10."
-        },
-        {
-          text: "(30 ÷ 5) + (9 - 4)",
-          answer: 11,
-          explanation: "Primero 30 ÷ 5 = 6 y 9 - 4 = 5, luego 6 + 5 = 11."
-        },
-        {
-          text: "6 × (8 ÷ 4 + 2)",
-          answer: 24,
-          explanation: "Primero 8 ÷ 4 = 2, luego 2 + 2 = 4 y 6 × 4 = 24."
-        },
-        {
-          text: "40 ÷ (5 × 2) + 3",
-          answer: 7,
-          explanation: "Primero 5 × 2 = 10, luego 40 ÷ 10 = 4 y 4 + 3 = 7."
-        },
-        {
-          text: "(7 + 5) × (6 - 2)",
-          answer: 48,
-          explanation: "Primero 7 + 5 = 12 y 6 - 2 = 4, luego 12 × 4 = 48."
-        },
-        {
-          text: "20 - (18 ÷ 3) × 2",
-          answer: 8,
-          explanation: "Primero 18 ÷ 3 = 6, luego 6 × 2 = 12 y 20 - 12 = 8."
-        },
-        {
-          text: "(16 ÷ 4) × (9 ÷ 3)",
-          answer: 12,
-          explanation: "Primero 16 ÷ 4 = 4 y 9 ÷ 3 = 3, luego 4 × 3 = 12."
-        },
-        {
-          text: "50 ÷ (10 - 5) + 6",
-          answer: 16,
-          explanation: "Primero 10 - 5 = 5, luego 50 ÷ 5 = 10 y 10 + 6 = 16."
-        },
-        {
-          text: "(8 × 3) - (4 ÷ 2)",
-          answer: 22,
-          explanation: "Primero 8 × 3 = 24 y 4 ÷ 2 = 2, luego 24 - 2 = 22."
-        },
-        {
-          text: "9 × (5 - 3) + 4",
-          answer: 22,
-          explanation: "Primero 5 - 3 = 2, luego 9 × 2 = 18 y 18 + 4 = 22."
-        },
-        {
-          text: "(14 + 2) × 3 - 5",
-          answer: 43,
-          explanation: "Primero 14 + 2 = 16, luego 16 × 3 = 48 y 48 - 5 = 43."
-        },
-        {
-          text: "32 ÷ (4 + 4) × 6",
-          answer: 24,
-          explanation: "Primero 4 + 4 = 8, luego 32 ÷ 8 = 4 y 4 × 6 = 24."
-        },
-        {
-          text: "(21 - 9) + 4 × 2",
-          answer: 20,
-          explanation: "Primero 21 - 9 = 12 y 4 × 2 = 8, luego 12 + 8 = 20."
-        }
-      ],
-      avanzado: [
-        {
-          text: "(4^2 × 3) ÷ (18 ÷ 3)",
-          answer: 8,
-          explanation: "Primero 4^2 = 16 y 16 × 3 = 48; luego 18 ÷ 3 = 6 y 48 ÷ 6 = 8."
-        },
-        {
-          text: "√64 + 5 × 2",
-          answer: 18,
-          explanation: "Primero √64 = 8 y 5 × 2 = 10; luego 8 + 10 = 18."
-        },
-        {
-          text: "(27 ÷ 3^2) + (5 × 4)",
-          answer: 23,
-          explanation: "Primero 3^2 = 9 y 27 ÷ 9 = 3; luego 5 × 4 = 20 y 3 + 20 = 23."
-        },
-        {
-          text: "(2^3 × 4) - √49",
-          answer: 25,
-          explanation: "Primero 2^3 = 8 y 8 × 4 = 32; luego √49 = 7 y 32 - 7 = 25."
-        },
-        {
-          text: "6 × (9 - √25)",
-          answer: 24,
-          explanation: "Primero √25 = 5, luego 9 - 5 = 4 y 6 × 4 = 24."
-        },
-        {
-          text: "√81 ÷ (7 - 4)",
-          answer: 3,
-          explanation: "Primero √81 = 9 y 7 - 4 = 3; luego 9 ÷ 3 = 3."
-        },
-        {
-          text: "(3 × 5^2) - (2 × 4^2)",
-          answer: 43,
-          explanation: "Primero 5^2 = 25 y 3 × 25 = 75; 4^2 = 16 y 2 × 16 = 32; luego 75 - 32 = 43."
-        },
-        {
-          text: "(12 ÷ 3) × √16",
-          answer: 16,
-          explanation: "Primero 12 ÷ 3 = 4 y √16 = 4; luego 4 × 4 = 16."
-        },
-        {
-          text: "(50 - 2^4) ÷ 2",
-          answer: 17,
-          explanation: "Primero 2^4 = 16, luego 50 - 16 = 34 y 34 ÷ 2 = 17."
-        },
-        {
-          text: "2^4 + √36 × 2",
-          answer: 28,
-          explanation: "Primero 2^4 = 16 y √36 = 6; luego 6 × 2 = 12 y 16 + 12 = 28."
-        },
-        {
-          text: "3 × (√49 + 5)",
-          answer: 36,
-          explanation: "Primero √49 = 7 y 7 + 5 = 12; luego 3 × 12 = 36."
-        },
-        {
-          text: "(6 + 2^3) × √9",
-          answer: 42,
-          explanation: "Primero 2^3 = 8 y 6 + 8 = 14; luego √9 = 3 y 14 × 3 = 42."
-        },
-        {
-          text: "5 × 5 - √121",
-          answer: 14,
-          explanation: "Primero 5 × 5 = 25 y √121 = 11; luego 25 - 11 = 14."
-        },
-        {
-          text: "(4^2 + 2^3) - √16",
-          answer: 20,
-          explanation: "Primero 4^2 = 16 y 2^3 = 8; 16 + 8 = 24; luego √16 = 4 y 24 - 4 = 20."
-        },
-        {
-          text: "2 × √25 + 3^2",
-          answer: 19,
-          explanation: "Primero √25 = 5, luego 2 × 5 = 10 y 3^2 = 9; 10 + 9 = 19."
-        }
-      ],
+    // ----- Banco de ejercicios por nivel -----
+    const ejerciciosPorNivel = {
       ampliado: [
         {
-          text: "7 × 2 + 8 ÷ 4 - 3 × 2 + (6 - 4) × 3",
+          expr: "2{5 × (9 − 4) + 3^2 − [16 ÷ (2^2)]}",
+          answer: 60,
+          explanation:
+            "1) Calcula los paréntesis: (9−4)=5 y (2^2)=4.\n" +
+            "2) Multiplica y divide: 5×5=25, 16÷4=4, 3^2=9.\n" +
+            "3) Sustituye: 2{25 + 9 − 4} = 2{30} = 60."
+        },
+        {
+          expr: "3(8 − 2^2) + 4(6 − 3)",
+          answer: 24,
+          explanation:
+            "1) 2^2 = 4.\n2) Dentro de paréntesis: (8−4)=4 y (6−3)=3.\n3) Multiplica: 3×4=12 y 4×3=12.\n4) Suma: 12+12=24."
+        },
+        {
+          expr: "5(12 ÷ 3 + 2^2) − 18",
+          answer: 22,
+          explanation:
+            "1) 12÷3=4 y 2^2=4.\n2) Suma dentro del paréntesis: 4+4=8.\n3) Multiplica: 5×8=40.\n4) Resta: 40−18=22."
+        },
+        {
+          expr: "4(7 + 3) − 2^3·3",
           answer: 16,
-          explanation: "Primero 8 ÷ 4 = 2 y 6 - 4 = 2; luego (6 - 4) × 3 = 6. La expresión queda 7 × 2 + 2 - 3 × 2 + 6. Calculamos 7 × 2 = 14 y 3 × 2 = 6, entonces 14 + 2 - 6 + 6 = 16."
+          explanation:
+            "1) (7+3)=10.\n2) 2^3=8.\n3) Multiplica: 4×10=40 y 8×3=24.\n4) Resta: 40−24=16."
         },
         {
-          text: "[(10 - 2) ÷ 2][3] + (8 + 6)(7 - 2) - (12 × 2) ÷ 8",
-          answer: 79,
-          explanation: "Primero 10 - 2 = 8 y 8 ÷ 2 = 4; luego 4 × 3 = 12. Después 8 + 6 = 14 y 7 - 2 = 5; 14 × 5 = 70. También 12 × 2 = 24 y 24 ÷ 8 = 3. Finalmente 12 + 70 - 3 = 79."
+          expr: "6(5 + 2) − 4(3^2 − 1)",
+          answer: 10,
+          explanation:
+            "1) (5+2)=7.\n2) 3^2=9, luego (9−1)=8.\n3) Multiplica: 6×7=42 y 4×8=32.\n4) Resta: 42−32=10."
         },
         {
-          text: "4[5 - (3 + 1)] + 6 × (8 ÷ 4 + 2) - 9",
-          answer: 19,
-          explanation: "Primero 3 + 1 = 4 y 5 - 4 = 1; luego 4 × 1 = 4. Después 8 ÷ 4 = 2 y 2 + 2 = 4; 6 × 4 = 24. La expresión queda 4 + 24 - 9, y 4 + 24 = 28; 28 - 9 = 19."
+          expr: "3(10 − 4) + 2^3·5",
+          answer: 58,
+          explanation:
+            "1) (10−4)=6.\n2) 2^3=8.\n3) Multiplica: 3×6=18 y 8×5=40.\n4) Suma: 18+40=58."
         },
         {
-          text: "(32 ÷ 4 + 7) × (9 - 5) - 6 ÷ 2 + 3",
-          answer: 60,
-          explanation: "Primero 32 ÷ 4 = 8 y 8 + 7 = 15; luego 9 - 5 = 4; 15 × 4 = 60. Después 6 ÷ 2 = 3, así que queda 60 - 3 + 3 = 60."
+          expr: "2(18 ÷ 3 + 4^2) − 7·3",
+          answer: 23,
+          explanation:
+            "1) 18÷3=6 y 4^2=16.\n2) Suma dentro del paréntesis: 6+16=22.\n3) Multiplica: 2×22=44.\n4) Resta: 44−21=23."
         },
         {
-          text: "50 - (18 ÷ 3) × 2 + 4 × (7 - 3)",
-          answer: 54,
-          explanation: "Primero 18 ÷ 3 = 6 y 6 × 2 = 12; luego 7 - 3 = 4 y 4 × 4 = 16. La expresión queda 50 - 12 + 16; 50 - 12 = 38 y 38 + 16 = 54."
+          expr: "5(9 − 3^2) + 4(8 − 2)",
+          answer: 24,
+          explanation:
+            "1) 3^2=9.\n2) (9−9)=0 y (8−2)=6.\n3) Multiplica: 5×0=0 y 4×6=24.\n4) Suma: 0+24=24."
         },
         {
-          text: "3[4 × (5 + 2) - (18 ÷ 3)] + 2^3",
-          answer: 74,
-          explanation: "Primero 5 + 2 = 7 y 4 × 7 = 28; luego 18 ÷ 3 = 6; 28 - 6 = 22. Después 3 × 22 = 66. Finalmente 2^3 = 8 y 66 + 8 = 74."
+          expr: "7(6 − 4) + 3^2·2",
+          answer: 32,
+          explanation:
+            "1) (6−4)=2.\n2) 3^2=9.\n3) Multiplica: 7×2=14 y 9×2=18.\n4) Suma: 14+18=32."
         },
         {
-          text: "√64 + 5 × (7 - 3) + 2^3 × 2",
-          answer: 44,
-          explanation: "Primero √64 = 8 y 7 - 3 = 4; 5 × 4 = 20. Luego 2^3 = 8 y 8 × 2 = 16. Al final 8 + 20 + 16 = 44."
+          expr: "4(5 + 3) − 2(7 − 2^2)",
+          answer: 26,
+          explanation:
+            "1) (5+3)=8.\n2) 2^2=4 y luego (7−4)=3.\n3) Multiplica: 4×8=32 y 2×3=6.\n4) Resta: 32−6=26."
         },
         {
-          text: "-2{ -(-9 + 8) + [15 ÷ √9 + (-4)^2] - (-7) }",
-          answer: -58,
-          explanation: "Primero -9 + 8 = -1, así que -(-1) = 1. Luego √9 = 3 y 15 ÷ 3 = 5; (-4)^2 = 16; entonces 5 + 16 = 21. También -(-7) = 7. Dentro de las llaves queda 1 + 21 + 7 = 29. Finalmente -2 × 29 = -58."
+          expr: "3(14 − 2·3) + 4^2",
+          answer: 40,
+          explanation:
+            "1) 2·3=6.\n2) (14−6)=8.\n3) 4^2=16.\n4) Multiplica: 3×8=24.\n5) Suma: 24+16=40."
         },
         {
-          text: "6{ (8 ÷ 4 + 2) - [3 + (5 - 1)] } + 10",
-          answer: -8,
-          explanation: "Primero 8 ÷ 4 = 2 y 2 + 2 = 4. Luego 5 - 1 = 4 y 3 + 4 = 7. Dentro de llaves: 4 - 7 = -3. Después 6 × (-3) = -18 y -18 + 10 = -8."
+          expr: "2(8 + 3^2) − 5(6 − 2)",
+          answer: 14,
+          explanation:
+            "1) 3^2=9.\n2) (8+9)=17 y (6−2)=4.\n3) Multiplica: 2×17=34 y 5×4=20.\n4) Resta: 34−20=14."
         },
         {
-          text: "(4^2 + 3 × 5 - 6) ÷ 5 + 2(7 - 3)",
-          answer: 13,
-          explanation: "Primero 4^2 = 16 y 3 × 5 = 15; 16 + 15 = 31; 31 - 6 = 25; 25 ÷ 5 = 5. Luego 7 - 3 = 4 y 2 × 4 = 8. Finalmente 5 + 8 = 13."
+          expr: "6(9 − 2^2) − 3(5 + 1)",
+          answer: 12,
+          explanation:
+            "1) 2^2=4.\n2) (9−4)=5 y (5+1)=6.\n3) Multiplica: 6×5=30 y 3×6=18.\n4) Resta: 30−18=12."
         },
         {
-          text: "5[ (12 ÷ 3) - (4^2 ÷ 8) ] + √81",
-          answer: 19,
-          explanation: "Primero 12 ÷ 3 = 4. Luego 4^2 = 16 y 16 ÷ 8 = 2; 4 - 2 = 2. Entonces 5 × 2 = 10. Finalmente √81 = 9 y 10 + 9 = 19."
+          expr: "5(7 + 2^2) − 4(6 − 3)",
+          answer: 43,
+          explanation:
+            "1) 2^2=4.\n2) (7+4)=11 y (6−3)=3.\n3) Multiplica: 5×11=55 y 4×3=12.\n4) Resta: 55−12=43."
         },
         {
-          text: "3(2^3 + 4 × 5) - [18 ÷ (3 + 3)]",
-          answer: 81,
-          explanation: "Primero 2^3 = 8 y 4 × 5 = 20; 8 + 20 = 28; 3 × 28 = 84. Luego 3 + 3 = 6 y 18 ÷ 6 = 3. Finalmente 84 - 3 = 81."
-        },
-        {
-          text: "2{5 × (9 - 4) + 3^2 - [16 ÷ (2^2)]}",
-          answer: 60,
-          explanation: "Primero 9 - 4 = 5 y 5 × 5 = 25; luego 3^2 = 9; 25 + 9 = 34. Después 2^2 = 4 y 16 ÷ 4 = 4; 34 - 4 = 30. Finalmente 2 × 30 = 60."
-        },
-        {
-          text: "(50 - [18 ÷ 3 + 2^3]) × 2 - 4",
-          answer: 68,
-          explanation: "Primero 18 ÷ 3 = 6 y 2^3 = 8; 6 + 8 = 14. Luego 50 - 14 = 36; 36 × 2 = 72 y 72 - 4 = 68."
-        },
-        {
-          text: "√36 + 4{(15 ÷ 3) - [2^2 + 1]}",
-          answer: 6,
-          explanation: "Primero 15 ÷ 3 = 5 y 2^2 = 4; 4 + 1 = 5; 5 - 5 = 0. Dentro de llaves queda 0, así que 4 × 0 = 0. Finalmente √36 = 6 y 6 + 0 = 6."
+          expr: "3(11 − 2^2) + 2(9 − 3)",
+          answer: 33,
+          explanation:
+            "1) 2^2=4.\n2) (11−4)=7 y (9−3)=6.\n3) Multiplica: 3×7=21 y 2×6=12.\n4) Suma: 21+12=33."
         }
-      ]
+      ],
+      // Por ahora, usamos el mismo banco para simplificar;
+      // luego puedes cambiar los ejercicios por nivel si lo deseas.
+      basico: [],
+      super: []
     };
 
-    const TOTAL_QUESTIONS = 15;
+    ejerciciosPorNivel.basico = ejerciciosPorNivel.ampliado.slice(0, 10);
+    ejerciciosPorNivel.super = ejerciciosPorNivel.ampliado.slice(); // mismos 15
 
-    let currentLevel = "basico";
-    let currentQuestions = [];
-    let currentIndex = 0;
-    let score = 0;
-    let studentName = "";
-    let studentGroup = "";
+    let nivelActual = "ampliado";
+    let ejercicios = ejerciciosPorNivel[nivelActual];
+    let indice = 0;
+    let aciertos = 0;
+    let enRevision = false; // false = esperando respuesta, true = esperando "Siguiente"
 
-    const startBtn = document.getElementById("startBtn");
-    const answerBtn = document.getElementById("answerBtn");
-    const restartBtn = document.getElementById("restartBtn");
+    const nombreInput = document.getElementById("nombreInput");
+    const grupoInput = document.getElementById("grupoInput");
+    const nivelSelect = document.getElementById("nivelSelect");
+    const btnGuardar = document.getElementById("btnGuardar");
 
-    const studentNameInput = document.getElementById("studentName");
-    const studentGroupInput = document.getElementById("studentGroup");
-    const levelSelect = document.getElementById("levelSelect");
+    const nombreSpan = document.getElementById("nombreSpan");
+    const grupoSpan = document.getElementById("grupoSpan");
+    const nivelSpan = document.getElementById("nivelSpan");
 
-    const configSection = document.getElementById("config-section");
-    const quizSection = document.getElementById("quiz-section");
-    const resultSection = document.getElementById("result-section");
-    const studentSummary = document.getElementById("student-summary");
-
-    const summaryName = document.getElementById("summaryName");
-    const summaryGroup = document.getElementById("summaryGroup");
-    const summaryLevel = document.getElementById("summaryLevel");
-
-    const questionNumber = document.getElementById("questionNumber");
-    const questionText = document.getElementById("questionText");
+    const exerciseHeader = document.getElementById("exerciseHeader");
+    const expressionText = document.getElementById("expressionText");
     const answerInput = document.getElementById("answerInput");
-    const feedback = document.getElementById("feedback");
-    const progress = document.getElementById("progress");
+    const btnResponder = document.getElementById("btnResponder");
+    const scoreText = document.getElementById("scoreText");
+    const feedbackContainer = document.getElementById("feedbackContainer");
 
-    const resultName = document.getElementById("resultName");
-    const resultGroup = document.getElementById("resultGroup");
-    const resultLevel = document.getElementById("resultLevel");
-    const resultScore = document.getElementById("resultScore");
-    const resultTotal = document.getElementById("resultTotal");
-    const resultDateTime = document.getElementById("resultDateTime");
+    // Carga desde localStorage si existe
+    function cargarDatos() {
+      const n = localStorage.getItem("pm1_nombre") || "";
+      const g = localStorage.getItem("pm1_grupo") || "";
+      const lvl = localStorage.getItem("pm1_nivel") || "ampliado";
 
-    function shuffleArray(arr) {
-      return arr
-        .map(value => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
+      nombreInput.value = n;
+      grupoInput.value = g;
+      nivelSelect.value = lvl;
+
+      nombreSpan.textContent = n || "---";
+      grupoSpan.textContent = g || "---";
+      nivelSpan.textContent = nivelTexto(lvl);
+
+      nivelActual = lvl;
+      ejercicios = ejerciciosPorNivel[nivelActual];
     }
 
-    function nivelLabel(level) {
-      switch (level) {
-        case "basico": return "Básico";
-        case "intermedio": return "Intermedio";
-        case "avanzado": return "Avanzado";
-        case "ampliado": return "Ampliado";
-        default: return level;
-      }
+    function nivelTexto(value) {
+      if (value === "basico") return "Básico";
+      if (value === "super") return "Súper avanzado";
+      return "Ampliado";
     }
 
-    function startQuiz() {
-      studentName = studentNameInput.value.trim();
-      studentGroup = studentGroupInput.value.trim();
-      currentLevel = levelSelect.value;
+    btnGuardar.addEventListener("click", () => {
+      const n = nombreInput.value.trim();
+      const g = grupoInput.value.trim();
+      const lvl = nivelSelect.value;
 
-      if (!studentName || !studentGroup) {
-        alert("Por favor escribe tu nombre y grupo antes de iniciar.");
-        return;
-      }
+      localStorage.setItem("pm1_nombre", n);
+      localStorage.setItem("pm1_grupo", g);
+      localStorage.setItem("pm1_nivel", lvl);
 
-      score = 0;
-      currentIndex = 0;
-      feedback.textContent = "";
+      nombreSpan.textContent = n || "---";
+      grupoSpan.textContent = g || "---";
+      nivelSpan.textContent = nivelTexto(lvl);
 
-      const bank = questionBanks[currentLevel].slice();
-      const shuffled = shuffleArray(bank);
-      currentQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
+      nivelActual = lvl;
+      ejercicios = ejerciciosPorNivel[nivelActual];
+      // Reiniciamos la sesión al cambiar nivel
+      indice = 0;
+      aciertos = 0;
+      enRevision = false;
+      btnResponder.disabled = false;
+      btnResponder.textContent = "Responder";
+      scoreText.textContent = "Aciertos hasta ahora: 0";
+      feedbackContainer.innerHTML = "";
+      mostrarEjercicio();
+    });
 
-      summaryName.textContent = studentName;
-      summaryGroup.textContent = studentGroup;
-      summaryLevel.textContent = nivelLabel(currentLevel);
-      studentSummary.style.display = "block";
-
-      configSection.style.display = "none";
-      resultSection.style.display = "none";
-      quizSection.style.display = "block";
-
-      showQuestion();
-    }
-
-    function showQuestion() {
-      const q = currentQuestions[currentIndex];
-      questionNumber.textContent = "Ejercicio " + (currentIndex + 1) + " de " + TOTAL_QUESTIONS;
-      questionText.textContent = q.text;
-      progress.textContent = "Aciertos hasta ahora: " + score;
-      feedback.textContent = "";
-      feedback.className = "feedback";
+    function mostrarEjercicio() {
+      const ej = ejercicios[indice];
+      exerciseHeader.textContent = `Ejercicio ${indice + 1} de ${ejercicios.length}`;
+      expressionText.textContent = ej.expr;
       answerInput.value = "";
       answerInput.focus();
     }
 
-    function checkAnswer() {
-    const userAns = Number(answerInput.value.trim());
-    const current = questions[currentIndex];
+    function mostrarFeedback(correcto, correcta, explicacion, respuestaEstudiante) {
+      feedbackContainer.innerHTML = "";
 
-    if (isNaN(userAns)) {
-        feedback.textContent = "Por favor escribe un número válido.";
-        feedback.className = "feedback_error";
-        return;
-    }
+      const fb = document.createElement("div");
+      fb.className = "feedback " + (correcto ? "ok" : "error");
 
-    if (userAns === current.answer) {
-        feedback.textContent = "✔ Correcto";
-        feedback.className = "feedback_ok";
-        score++;
-    } else {
-        feedback.textContent = 
-        `✘ Incorrecto.  
-Respuesta correcta: ${current.answer}  
-Explicación: ${current.explanation}`;
-        feedback.className = "feedback_error";
-    }
-
-    currentIndex++;
-    progress.textContent = `${currentIndex} / ${questions.length}`;
-
-    if (currentIndex >= questions.length) {
-        finishQuiz();
-    }
-}
-
-
-    function showResult() {
-      quizSection.style.display = "none";
-      resultSection.style.display = "block";
-
-      resultName.textContent = studentName;
-      resultGroup.textContent = studentGroup;
-      resultLevel.textContent = nivelLabel(currentLevel);
-      resultScore.textContent = score;
-      resultTotal.textContent = TOTAL_QUESTIONS;
-
-      const now = new Date();
-      const formatted = now.toLocaleString("es-MX", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-      resultDateTime.textContent = formatted;
-    }
-
-    function restartQuiz() {
-      configSection.style.display = "block";
-      quizSection.style.display = "none";
-      resultSection.style.display = "none";
-      feedback.textContent = "";
-      progress.textContent = "";
-    }
-
-    startBtn.addEventListener("click", startQuiz);
-    answerBtn.addEventListener("click", checkAnswer);
-    restartBtn.addEventListener("click", restartQuiz);
-
-    answerInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        checkAnswer();
+      if (correcto) {
+        fb.textContent = `¡Correcto! Tu resultado (${respuestaEstudiante}) es el esperado.`;
+      } else {
+        fb.textContent = `Incorrecto. Tu resultado fue ${respuestaEstudiante}, pero el correcto es ${correcta}.`;
       }
+
+      const exp = document.createElement("div");
+      exp.className = "explanation";
+      exp.textContent = explicacion;
+
+      feedbackContainer.appendChild(fb);
+      feedbackContainer.appendChild(exp);
+    }
+
+    btnResponder.addEventListener("click", () => {
+      if (btnResponder.disabled) return;
+
+      // Si estamos en modo "Siguiente"
+      if (enRevision) {
+        indice++;
+        if (indice >= ejercicios.length) {
+          exerciseHeader.textContent = "Sesión terminada";
+          expressionText.textContent = "Has completado los 15 ejercicios de este nivel.";
+          answerInput.value = "";
+          answerInput.disabled = true;
+          btnResponder.disabled = true;
+          btnResponder.textContent = "Finalizado";
+          feedbackContainer.innerHTML +=
+            "<div class='explanation'>Puedes recargar la página o cambiar de nivel para iniciar otra sesión.</div>";
+          return;
+        }
+        enRevision = false;
+        btnResponder.textContent = "Responder";
+        feedbackContainer.innerHTML = "";
+        mostrarEjercicio();
+        return;
+      }
+
+      // Modo "Responder"
+      const ej = ejercicios[indice];
+      const valor = answerInput.value.trim();
+      if (valor === "") {
+        alert("Escribe un resultado antes de responder.");
+        return;
+      }
+      const respuestaNum = Number(valor.replace(",", "."));
+      if (Number.isNaN(respuestaNum)) {
+        alert("Por favor escribe un número válido.");
+        return;
+      }
+
+      const correcto = Math.abs(respuestaNum - ej.answer) < 1e-9;
+      if (correcto) aciertos++;
+
+      scoreText.textContent = `Aciertos hasta ahora: ${aciertos}`;
+      mostrarFeedback(correcto, ej.answer, ej.explanation, respuestaNum);
+
+      enRevision = true;
+      btnResponder.textContent = indice === ejercicios.length - 1 ? "Ver resultado final" : "Siguiente";
     });
+
+    // Inicialización
+    cargarDatos();
+    mostrarEjercicio();
   </script>
 </body>
 </html>
