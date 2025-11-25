@@ -194,6 +194,38 @@
       <div id="feedbackContainer"></div>
     </div>
 
+
+    <div class="info-box" id="resultadoSesion" style="display:none; margin-top: 10px;">
+      <div class="small-label">Resumen de la sesión</div>
+      <div class="info-row">
+        <span class="info-label">Nombre:</span>
+        <span id="resNombre">---</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Grupo:</span>
+        <span id="resGrupo">---</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nivel:</span>
+        <span id="resNivel">---</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Aciertos / Total:</span>
+        <span id="resAciertos">0</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Porcentaje:</span>
+        <span id="resPorcentaje">0 %</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Fecha y hora:</span>
+        <span id="resFecha">---</span>
+      </div>
+      <div style="margin-top:6px;font-size:0.8rem;">
+        Toma captura de pantalla de este recuadro como evidencia de tu sesión.
+      </div>
+    </div>
+
     <div class="footer-text">
   Resuelve respetando la jerarquía de operaciones.<br>
   PENSAMIENTO MATEMÁTICO 1 · Mtra. Adriana Arroyo
@@ -201,8 +233,101 @@
 
 
   <script>
+    
     // ----- Banco de ejercicios por nivel -----
     const ejerciciosPorNivel = {
+      basico: [
+        {
+          expr: "6 + 4 × 3",
+          answer: 18,
+          explanation:
+            "Primero multiplicas 4×3=12 y luego sumas 6+12=18."
+        },
+        {
+          expr: "20 − 6 ÷ 3",
+          answer: 18,
+          explanation:
+            "Primero divides 6÷3=2 y luego restas 20−2=18."
+        },
+        {
+          expr: "3 + 2 × (5 − 1)",
+          answer: 11,
+          explanation:
+            "Dentro del paréntesis: 5−1=4. Luego 2×4=8 y finalmente 3+8=11."
+        },
+        {
+          expr: "18 ÷ 3 + 2^2",
+          answer: 10,
+          explanation:
+            "Primero 18÷3=6 y 2^2=4. Luego sumas 6+4=10."
+        },
+        {
+          expr: "4(3 + 2)",
+          answer: 20,
+          explanation:
+            "Resuelve el paréntesis: 3+2=5. Luego multiplicas 4×5=20."
+        },
+        {
+          expr: "2^3 + 5 × 2",
+          answer: 18,
+          explanation:
+            "Calcula 2^3=8. Luego 5×2=10. Finalmente 8+10=18."
+        },
+        {
+          expr: "30 − 2(4 + 3)",
+          answer: 16,
+          explanation:
+            "Primero 4+3=7. Luego 2×7=14. Finalmente 30−14=16."
+        },
+        {
+          expr: "5(2 + 1) − 4",
+          answer: 11,
+          explanation:
+            "Dentro del paréntesis: 2+1=3. Luego 5×3=15 y 15−4=11."
+        },
+        {
+          expr: "24 ÷ (2 × 3)",
+          answer: 4,
+          explanation:
+            "Primero 2×3=6. Luego 24÷6=4."
+        },
+        {
+          expr: "7 + 3^2 − 4",
+          answer: 12,
+          explanation:
+            "Calcula 3^2=9. Luego 7+9=16 y 16−4=12."
+        },
+        {
+          expr: "10 + 6 ÷ 2",
+          answer: 13,
+          explanation:
+            "Primero 6÷2=3. Luego 10+3=13."
+        },
+        {
+          expr: "4^2 − 3 × 2",
+          answer: 10,
+          explanation:
+            "Primero 4^2=16. Luego 3×2=6. Finalmente 16−6=10."
+        },
+        {
+          expr: "2(5 + 3) − 6",
+          answer: 10,
+          explanation:
+            "Dentro del paréntesis: 5+3=8. Luego 2×8=16 y 16−6=10."
+        },
+        {
+          expr: "9 + 2(7 − 4)",
+          answer: 15,
+          explanation:
+            "Calcula 7−4=3. Luego 2×3=6 y 9+6=15."
+        },
+        {
+          expr: "3(4 + 2) + 5",
+          answer: 23,
+          explanation:
+            "Primero 4+2=6. Luego 3×6=18 y 18+5=23."
+        }
+      ],
       ampliado: [
         {
           expr: "2{5 × (9 − 4) + 3^2 − [16 ÷ (2^2)]}",
@@ -297,16 +422,100 @@
             "1) 2^2=4.\n2) (11−4)=7 y (9−3)=6.\n3) Multiplica: 3×7=21 y 2×6=12.\n4) Suma: 21+12=33."
         }
       ],
-      // Por ahora, usamos el mismo banco para simplificar;
-      // luego puedes cambiar los ejercicios por nivel si lo deseas.
-      basico: [],
-      super: []
+      super: [
+        {
+          expr: "2^2(9 − 3) + 3[4(5 − 2) − 6]",
+          answer: 54,
+          explanation:
+            "1) 2^2=4.\n2) (9−3)=6, (5−2)=3.\n3) 4×3=12 y 12−6=6.\n4) Luego 4×6=24 y 3×6=18.\n5) Finalmente 24+18=42."
+        },
+        {
+          expr: "5[3(4 + 2) − 2^3] + 4",
+          answer: 64,
+          explanation:
+            "1) (4+2)=6.\n2) 3×6=18.\n3) 2^3=8.\n4) Dentro del corchete: 18−8=10.\n5) 5×10=50 y luego 50+4=54."
+        },
+        {
+          expr: "3{2(7 − 3) + 4^2} − 5·2^2",
+          answer: 58,
+          explanation:
+            "1) (7−3)=4, 2×4=8.\n2) 4^2=16.\n3) Dentro de la llave: 8+16=24.\n4) 3×24=72.\n5) 2^2=4 y 5×4=20.\n6) Finalmente 72−20=52."
+        },
+        {
+          expr: "4(6 + 2^2) − 3[5(3 − 1) − 4]",
+          answer: 24,
+          explanation:
+            "1) 2^2=4, 6+4=10.\n2) (3−1)=2, 5×2=10 y luego 10−4=6.\n3) 4×10=40.\n4) 3×6=18.\n5) Finalmente 40−18=22."
+        },
+        {
+          expr: "2[3(5 + 1) − 4^2] + 3^3",
+          answer: 26,
+          explanation:
+            "1) (5+1)=6, 3×6=18.\n2) 4^2=16.\n3) Dentro del corchete: 18−16=2.\n4) 2×2=4.\n5) 3^3=27.\n6) Finalmente 4+27=31."
+        },
+        {
+          expr: "5(4^2 − 3·2) + 2(9 − 5)",
+          answer: 78,
+          explanation:
+            "1) 4^2=16 y 3·2=6.\n2) Dentro del paréntesis: 16−6=10.\n3) 5×10=50.\n4) (9−5)=4, 2×4=8.\n5) Finalmente 50+8=58."
+        },
+        {
+          expr: "3(8 + 2^3) − 4[6 − (3^2 − 2)]",
+          answer: 40,
+          explanation:
+            "1) 2^3=8, 8+8=16.\n2) 3^2=9, 9−2=7.\n3) (6−7)=−1.\n4) 3×16=48.\n5) 4×(−1)=−4.\n6) Finalmente 48−4=44."
+        },
+        {
+          expr: "2{4(7 − 2) + 3[5 − (2^2 − 1)]}",
+          answer: 68,
+          explanation:
+            "1) (7−2)=5, 4×5=20.\n2) 2^2=4, 4−1=3, (5−3)=2.\n3) 3×2=6.\n4) Dentro de la llave: 20+6=26.\n5) 2×26=52."
+        },
+        {
+          expr: "4[3(6 − 2) + 2^3] − 5(7 − 3)",
+          answer: 66,
+          explanation:
+            "1) (6−2)=4, 3×4=12.\n2) 2^3=8.\n3) Dentro del corchete: 12+8=20.\n4) 4×20=80.\n5) (7−3)=4, 5×4=20.\n6) Finalmente 80−20=60."
+        },
+        {
+          expr: "3(5^2 − 4·3) + 2(7 − 2^2)",
+          answer: 57,
+          explanation:
+            "1) 5^2=25 y 4·3=12.\n2) Dentro del paréntesis: 25−12=13.\n3) 2^2=4 y (7−4)=3.\n4) 3×13=39 y 2×3=6.\n5) Finalmente 39+6=45."
+        },
+        {
+          expr: "2^3(9 − 5) + 3[4(2^2 + 1) − 10]",
+          answer: 70,
+          explanation:
+            "1) 2^3=8, (9−5)=4, 8×4=32.\n2) 2^2=4, 4+1=5, 4×5=20.\n3) Dentro del corchete: 20−10=10.\n4) 3×10=30.\n5) Finalmente 32+30=62."
+        },
+        {
+          expr: "5{2(7 − 3) + 3(4^2 − 5)}",
+          answer: 110,
+          explanation:
+            "1) (7−3)=4, 2×4=8.\n2) 4^2=16, 16−5=11, 3×11=33.\n3) Dentro de la llave: 8+33=41.\n4) 5×41=205."
+        },
+        {
+          expr: "4[5(3 + 1) − 2(6 − 2^2)]",
+          answer: 64,
+          explanation:
+            "1) (3+1)=4, 5×4=20.\n2) 2^2=4, (6−4)=2, 2×2=4.\n3) Dentro del corchete: 20−4=16.\n4) 4×16=64."
+        },
+        {
+          expr: "3(2^3 + 5^2) − 4(7 − 3)",
+          answer: 71,
+          explanation:
+            "1) 2^3=8 y 5^2=25.\n2) Suma: 8+25=33.\n3) 3×33=99.\n4) (7−3)=4, 4×4=16.\n5) Finalmente 99−16=83."
+        },
+        {
+          expr: "2[3(9 − 4) + 4(2^2 + 3)]",
+          answer: 94,
+          explanation:
+            "1) (9−4)=5, 3×5=15.\n2) 2^2=4, 4+3=7, 4×7=28.\n3) Dentro del corchete: 15+28=43.\n4) 2×43=86."
+        }
+      ]
     };
-
-    ejerciciosPorNivel.basico = ejerciciosPorNivel.ampliado.slice(0, 10);
-    ejerciciosPorNivel.super = ejerciciosPorNivel.ampliado.slice(); // mismos 15
-
-    let nivelActual = "ampliado";
+let nivelActual = "ampliado";
     let ejercicios = ejerciciosPorNivel[nivelActual];
     let indice = 0;
     let aciertos = 0;
@@ -414,13 +623,40 @@
         indice++;
         if (indice >= ejercicios.length) {
           exerciseHeader.textContent = "Sesión terminada";
-          expressionText.textContent = "Has completado los 15 ejercicios de este nivel.";
+          const total = ejercicios.length;
+          expressionText.textContent = "Has completado todos los ejercicios de este nivel.";
           answerInput.value = "";
           answerInput.disabled = true;
           btnResponder.disabled = true;
           btnResponder.textContent = "Finalizado";
           feedbackContainer.innerHTML +=
             "<div class='explanation'>Puedes recargar la página o cambiar de nivel para iniciar otra sesión.</div>";
+
+          // Llenar resumen de sesión para captura de pantalla
+          const nombreSpan = document.getElementById("nombreSpan");
+          const grupoSpan = document.getElementById("grupoSpan");
+          const nivelSpan = document.getElementById("nivelSpan");
+          const resNombre = document.getElementById("resNombre");
+          const resGrupo = document.getElementById("resGrupo");
+          const resNivel = document.getElementById("resNivel");
+          const resAciertos = document.getElementById("resAciertos");
+          const resPorcentaje = document.getElementById("resPorcentaje");
+          const resFecha = document.getElementById("resFecha");
+          const resumenBox = document.getElementById("resultadoSesion");
+
+          if (resumenBox && resNombre && resGrupo && resNivel && resAciertos && resPorcentaje && resFecha) {
+            const totalAciertos = aciertos;
+            const porcentaje = (totalAciertos / total) * 100;
+            resNombre.textContent = nombreSpan ? nombreSpan.textContent : "---";
+            resGrupo.textContent = grupoSpan ? grupoSpan.textContent : "---";
+            resNivel.textContent = nivelSpan ? nivelSpan.textContent : "---";
+            resAciertos.textContent = `${totalAciertos} / ${total}`;
+            resPorcentaje.textContent = `${porcentaje.toFixed(1)} %`;
+            const ahora = new Date();
+            resFecha.textContent = ahora.toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" });
+            resumenBox.style.display = "block";
+          }
+
           return;
         }
         enRevision = false;
