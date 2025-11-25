@@ -194,37 +194,6 @@
       <div id="feedbackContainer"></div>
     </div>
 
-    <div class="info-box" id="resultadoSesion" style="display:none; margin-top:10px;">
-      <div class="small-label">Resumen de la sesión</div>
-      <div class="info-row">
-        <span class="info-label">Nombre:</span>
-        <span id="resNombre">---</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Grupo:</span>
-        <span id="resGrupo">---</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Nivel:</span>
-        <span id="resNivel">---</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Aciertos / Total:</span>
-        <span id="resAciertos">0 / 0</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Porcentaje:</span>
-        <span id="resPorcentaje">0 %</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Fecha y hora:</span>
-        <span id="resFecha">---</span>
-      </div>
-      <div style="margin-top:6px;font-size:0.8rem;">
-        Toma captura de pantalla de este recuadro como evidencia de tu sesión.
-      </div>
-    </div>
-
     <div class="footer-text">
   Resuelve respetando la jerarquía de operaciones.<br>
   PENSAMIENTO MATEMÁTICO 1 · Mtra. Adriana Arroyo
@@ -331,163 +300,13 @@
       // Por ahora, usamos el mismo banco para simplificar;
       // luego puedes cambiar los ejercicios por nivel si lo deseas.
       basico: [],
-      basico: [],
-      super: [
-        {
-          expr: "√16 + 3^2 − 5",
-          answer: 8,
-          explanation:
-            "1) √16 = 4.
-2) 3^2 = 9.
-3) Suma y resta: 4 + 9 − 5 = 8."
-        },
-        {
-          expr: "2{[5 + 3(4 − 1)] − √25}",
-          answer: 18,
-          explanation:
-            "1) Dentro del paréntesis: (4 − 1) = 3, luego 3×3 = 9.
-2) 5 + 9 = 14.
-3) √25 = 5, así que [14 − 5] = 9.
-4) Finalmente 2×9 = 18."
-        },
-        {
-          expr: "3[2^3 + (10 − 4)] − √36",
-          answer: 36,
-          explanation:
-            "1) 2^3 = 8.
-2) (10 − 4) = 6.
-3) Dentro del corchete: 8 + 6 = 14.
-4) 3×14 = 42.
-5) √36 = 6, así que 42 − 6 = 36."
-        },
-        {
-          expr: "√49 + 2{5(3 + 1) − 4^2}",
-          answer: 15,
-          explanation:
-            "1) √49 = 7.
-2) (3 + 1) = 4, 5×4 = 20.
-3) 4^2 = 16, entonces 20 − 16 = 4.
-4) 2×4 = 8.
-5) Finalmente 7 + 8 = 15."
-        },
-        {
-          expr: "5{√81 − (2^3 + 1)} + 3^2",
-          answer: 9,
-          explanation:
-            "1) √81 = 9.
-2) 2^3 = 8, así que (2^3 + 1) = 9.
-3) 9 − 9 = 0, luego 5×0 = 0.
-4) 3^2 = 9.
-5) Resultado final: 0 + 9 = 9."
-        },
-        {
-          expr: "2{√64 + 3[5 − (2^2 − 1)]}",
-          answer: 28,
-          explanation:
-            "1) √64 = 8.
-2) 2^2 = 4, 4 − 1 = 3, (5 − 3) = 2.
-3) 3×2 = 6.
-4) Dentro de la llave: 8 + 6 = 14.
-5) Finalmente 2×14 = 28."
-        },
-        {
-          expr: "4[3(6 − 2) + √16] − 5^2",
-          answer: 39,
-          explanation:
-            "1) (6 − 2) = 4, 3×4 = 12.
-2) √16 = 4.
-3) Dentro del corchete: 12 + 4 = 16.
-4) 4×16 = 64.
-5) 5^2 = 25, por lo tanto 64 − 25 = 39."
-        },
-        {
-          expr: "3{√25 + 2[7 − (3^2 − 2)]}",
-          answer: 15,
-          explanation:
-            "1) √25 = 5.
-2) 3^2 = 9, 9 − 2 = 7, (7 − 7) = 0.
-3) 2×0 = 0.
-4) Dentro de la llave: 5 + 0 = 5.
-5) 3×5 = 15."
-        },
-        {
-          expr: "2^3[5 + (9 − √81)] + 4^2",
-          answer: 56,
-          explanation:
-            "1) √81 = 9, así que (9 − √81) = 0.
-2) 5 + 0 = 5.
-3) 2^3 = 8, 8×5 = 40.
-4) 4^2 = 16.
-5) Resultado: 40 + 16 = 56."
-        },
-        {
-          expr: "√100 − 3{4[2^2 + 1] − 5}",
-          answer: -35,
-          explanation:
-            "1) √100 = 10.
-2) 2^2 = 4, 4 + 1 = 5.
-3) 4×5 = 20, 20 − 5 = 15.
-4) 3×15 = 45.
-5) Finalmente 10 − 45 = −35."
-        },
-        {
-          expr: "5{2(7 − 3) + √36} − 4^3",
-          answer: 6,
-          explanation:
-            "1) (7 − 3) = 4, 2×4 = 8.
-2) √36 = 6.
-3) Dentro de la llave: 8 + 6 = 14.
-4) 5×14 = 70.
-5) 4^3 = 64, así que 70 − 64 = 6."
-        },
-        {
-          expr: "3[√49 + 2(5^2 − 4)] − 2^4",
-          answer: 131,
-          explanation:
-            "1) √49 = 7.
-2) 5^2 = 25, 25 − 4 = 21.
-3) 2×21 = 42.
-4) Dentro del corchete: 7 + 42 = 49.
-5) 3×49 = 147.
-6) 2^4 = 16, entonces 147 − 16 = 131."
-        },
-        {
-          expr: "2{3[√64 − (5 + 1)] + 4^2}",
-          answer: 44,
-          explanation:
-            "1) √64 = 8.
-2) (5 + 1) = 6, 8 − 6 = 2.
-3) 3×2 = 6.
-4) 4^2 = 16.
-5) Dentro de la llave: 6 + 16 = 22.
-6) Finalmente 2×22 = 44."
-        },
-        {
-          expr: "4[5(3 + √9) − 2^3] + 6",
-          answer: 94,
-          explanation:
-            "1) √9 = 3, (3 + √9) = 6.
-2) 5×6 = 30.
-3) 2^3 = 8, 30 − 8 = 22.
-4) 4×22 = 88.
-5) Finalmente 88 + 6 = 94."
-        },
-        {
-          expr: "√121 + 3{2(9 − 4) + 5^2}",
-          answer: 116,
-          explanation:
-            "1) √121 = 11.
-2) (9 − 4) = 5, 2×5 = 10.
-3) 5^2 = 25.
-4) Dentro de la llave: 10 + 25 = 35.
-5) 3×35 = 105.
-6) Finalmente 11 + 105 = 116."
-        }
-      ]
+      super: []
     };
 
     ejerciciosPorNivel.basico = ejerciciosPorNivel.ampliado.slice(0, 10);
-let nivelActual = "ampliado";
+    ejerciciosPorNivel.super = ejerciciosPorNivel.ampliado.slice(); // mismos 15
+
+    let nivelActual = "ampliado";
     let ejercicios = ejerciciosPorNivel[nivelActual];
     let indice = 0;
     let aciertos = 0;
@@ -552,13 +371,10 @@ let nivelActual = "ampliado";
       indice = 0;
       aciertos = 0;
       enRevision = false;
-      answerInput.disabled = false;
       btnResponder.disabled = false;
       btnResponder.textContent = "Responder";
       scoreText.textContent = "Aciertos hasta ahora: 0";
       feedbackContainer.innerHTML = "";
-      const resumenBox = document.getElementById("resultadoSesion");
-      if (resumenBox) resumenBox.style.display = "none";
       mostrarEjercicio();
     });
 
@@ -598,35 +414,13 @@ let nivelActual = "ampliado";
         indice++;
         if (indice >= ejercicios.length) {
           exerciseHeader.textContent = "Sesión terminada";
-          const total = ejercicios.length;
-          expressionText.textContent = "Has completado todos los ejercicios de este nivel.";
+          expressionText.textContent = "Has completado los 15 ejercicios de este nivel.";
           answerInput.value = "";
           answerInput.disabled = true;
           btnResponder.disabled = true;
           btnResponder.textContent = "Finalizado";
           feedbackContainer.innerHTML +=
             "<div class='explanation'>Puedes recargar la página o cambiar de nivel para iniciar otra sesión.</div>";
-
-          const resumenBox = document.getElementById("resultadoSesion");
-          const resNombre = document.getElementById("resNombre");
-          const resGrupo = document.getElementById("resGrupo");
-          const resNivel = document.getElementById("resNivel");
-          const resAciertos = document.getElementById("resAciertos");
-          const resPorcentaje = document.getElementById("resPorcentaje");
-          const resFecha = document.getElementById("resFecha");
-
-          if (resumenBox && resNombre && resGrupo && resNivel && resAciertos && resPorcentaje && resFecha) {
-            const totalAciertos = aciertos;
-            const porcentaje = total > 0 ? (totalAciertos / total) * 100 : 0;
-            resNombre.textContent = nombreSpan.textContent || "---";
-            resGrupo.textContent = grupoSpan.textContent || "---";
-            resNivel.textContent = nivelSpan.textContent || "---";
-            resAciertos.textContent = `${totalAciertos} / ${total}`;
-            resPorcentaje.textContent = `${porcentaje.toFixed(1)} %`;
-            const ahora = new Date();
-            resFecha.textContent = ahora.toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" });
-            resumenBox.style.display = "block";
-          }
           return;
         }
         enRevision = false;
