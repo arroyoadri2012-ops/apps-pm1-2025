@@ -152,6 +152,21 @@
       transform: none;
     }
 
+    .btn-sign {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--input-border);
+      background: #e5e7eb;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      cursor: pointer;
+      min-width: 38px;
+    }
+
+    .btn-sign:active {
+      transform: translateY(0.5px);
+    }
+
     .datos-guardados {
       margin-top: 10px;
       padding: 8px 10px;
@@ -226,6 +241,16 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+    }
+
+    .respuesta-input-inline {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .respuesta-input-inline input {
+      flex: 1;
     }
 
     .respuesta-input-wrapper small {
@@ -344,8 +369,18 @@
       <div class="respuesta-row">
         <div class="respuesta-input-wrapper">
           <label for="answerInput">Escribe tu resultado:</label>
-          <input type="text" id="answerInput" autocomplete="off" inputmode="decimal" placeholder="Solo número (puede ser negativo o decimal)">
-          <small>Usa punto para decimales, por ejemplo: 12.5</small>
+          <div class="respuesta-input-inline">
+            <input
+              type="text"
+              id="answerInput"
+              autocomplete="off"
+              placeholder="Ej. -5 o 12.5"
+            >
+          </div>
+          <small>
+            Escribe solo números enteros o decimales (pueden ser negativos).
+            No uses fracciones con “/”, por ejemplo escribe 1.5 en lugar de 3/2.
+          </small>
         </div>
         <div>
           <button id="actionButton" class="btn btn-primary" type="button">Responder</button>
@@ -963,7 +998,8 @@
       if (!reactivosSesion || reactivosSesion.length === 0) return;
 
       const reactivo = reactivosSesion[indiceActual];
-      const texto = answerInput.value.trim().replace(",", ".");
+      let texto = answerInput.value.trim();
+
       if (texto === "") {
         feedbackDiv.textContent = "Por favor, escribe un número como respuesta.";
         feedbackDiv.classList.remove("correcto", "incorrecto");
@@ -974,9 +1010,12 @@
         return;
       }
 
+      texto = texto.replace(",", ".");
       const valorUsuario = parseFloat(texto);
+
       if (Number.isNaN(valorUsuario)) {
-        feedbackDiv.textContent = "La respuesta debe ser un número (puede ser negativo o decimal).";
+        feedbackDiv.textContent =
+          "La respuesta debe ser un número válido: entero o decimal (puede ser negativo).";
         feedbackDiv.classList.remove("correcto", "incorrecto");
         feedbackDiv.classList.add("incorrecto");
         feedbackDiv.style.display = "block";
