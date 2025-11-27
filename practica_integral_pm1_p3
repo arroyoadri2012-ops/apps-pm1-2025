@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PRÁCTICA INTEGRAL TERCER PARCIAL PM1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0 0 6px 0;
+            color: #243b53;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            margin: 0 0 4px 0;
+            color: #334e68;
+        }
+
+        header p {
+            margin: 2px 0;
+            font-size: 0.9rem;
+        }
+
+        .subtext {
+            font-size: 0.85rem;
+            color: #52606d;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.05rem;
+            color: #243b53;
+        }
+
+        label {
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd2e1;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4c6fff;
+            box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.2);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 600px) {
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.9rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .radio-item input[type="radio"] {
+            width: auto;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        button {
+            border: none;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: #4c6fff;
+            color: #ffffff;
+            transition: transform 0.05s ease, box-shadow 0.1s ease, background 0.15s ease;
+        }
+
+        button:hover:enabled {
+            background: #3856e6;
+            box-shadow: 0 2px 6px rgba(56, 86, 230, 0.35);
+        }
+
+        button:active:enabled {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+        }
+
+        button:disabled {
+            background: #cbd2e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .button-secondary {
+            background: #e4e7f2;
+            color: #243b53;
+        }
+
+        .button-secondary:hover:enabled {
+            background: #d0d4e7;
+        }
+
+        .exercise-type {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4c6fff;
+            margin-bottom: 4px;
+        }
+
+        .exercise-statement {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .feedback {
+            font-size: 0.9rem;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: #f0f4ff;
+            border-left: 4px solid #4c6fff;
+            margin-top: 8px;
+            white-space: pre-line;
+        }
+
+        .feedback.correct {
+            background: #e6fffa;
+            border-left-color: #0f766e;
+        }
+
+        .feedback.incorrect {
+            background: #fdf2f2;
+            border-left-color: #b91c1c;
+        }
+
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #e4e7f2;
+            color: #243b53;
+        }
+
+        .badge-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .badge-error {
+            background: #fde8e8;
+            color: #981b1b;
+        }
+
+        .message {
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .message.error {
+            color: #b91c1c;
+        }
+
+        .message.info {
+            color: #52606d;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 600px) {
+            .report-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .report-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .small-note {
+            font-size: 0.8rem;
+            color: #7b8794;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>PRÁCTICA INTEGRAL TERCER PARCIAL PM1</h1>
+        <p>Razones, porcentajes, regla de 3, exponentes y operaciones combinadas</p>
+        <p class="subtext">Pensamiento Matemático 1 – Mtra. Adriana Arroyo</p>
+    </header>
+
+    <!-- Mensajes generales -->
+    <div id="generalMessage" class="message info"></div>
+
+    <!-- Datos del equipo -->
+    <section class="card">
+        <h3>Datos del equipo</h3>
+        <div class="team-grid">
+            <div>
+                <label for="integrante1">Nombre y apellido del integrante 1</label>
+                <input type="text" id="integrante1" autocomplete="off">
+            </div>
+            <div>
+                <label for="integrante2">Nombre y apellido del integrante 2</label>
+                <input type="text" id="integrante2" autocomplete="off">
+            </div>
+            <div>
+                <label for="integrante3">Nombre y apellido del integrante 3</label>
+                <input type="text" id="integrante3" autocomplete="off">
+            </div>
+            <div>
+                <label for="grupo">Grupo</label>
+                <input type="text" id="grupo" autocomplete="off">
+            </div>
+        </div>
+        <p class="small-note">
+            Antes de iniciar la práctica asegúrate de escribir correctamente los nombres y el grupo. Estos datos
+            aparecerán en el reporte final.
+        </p>
+    </section>
+
+    <!-- Selección de tipo de problema -->
+    <section class="card">
+        <h3>Tipo de problema</h3>
+        <div class="radio-group">
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="razones" checked>
+                Razones, proporciones y porcentajes
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="regla3d">
+                Regla de 3 directa
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="regla3i">
+                Regla de 3 inversa
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="exponentes">
+                Leyes de exponentes (casos amigables)
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="combinadas">
+                Operaciones combinadas (nivel súper avanzado)
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="tipo" value="mixto">
+                Modo mixto (todos los tipos anteriores)
+            </label>
+        </div>
+        <div class="button-row">
+            <button id="btnIniciar">Iniciar práctica</button>
+            <button id="btnReiniciar" class="button-secondary">Reiniciar contadores</button>
+        </div>
+        <p class="small-note">
+            “Iniciar práctica” genera el primer ejercicio según el tipo seleccionado (o mezcla aleatoria si eliges
+            modo mixto).
+        </p>
+    </section>
+
+    <!-- Zona del ejercicio actual -->
+    <section class="card">
+        <h3>Ejercicio actual</h3>
+        <div id="exerciseType" class="exercise-type">Selecciona un tipo de problema y presiona “Iniciar práctica”.</div>
+        <div id="exerciseStatement" class="exercise-statement"></div>
+
+        <label for="answerInput">Escribe tu respuesta:</label>
+        <input type="text" id="answerInput" autocomplete="off">
+
+        <div class="button-row" style="margin-top: 8px;">
+            <button id="btnVerificar">Verificar respuesta</button>
+            <button id="btnSiguiente" class="button-secondary" disabled>Siguiente ejercicio</button>
+        </div>
+
+        <div id="feedback" class="feedback hidden"></div>
+
+        <div class="status-bar">
+            <div class="badge" id="exerciseCounter">Ejercicio 0 de 10</div>
+            <div>
+                <span class="badge badge-success" id="aciertosBadge">Aciertos: 0</span>
+                <span class="badge badge-error" id="erroresBadge">Errores: 0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reporte final -->
+    <section class="card">
+        <h3>Reporte y resultados</h3>
+        <div class="button-row">
+            <button id="btnReporte">Ver reporte / finalizar práctica</button>
+        </div>
+
+        <div id="reportSection" class="card hidden" style="margin-top: 10px; background:#f9fafb;">
+            <div class="report-title">Reporte final de la práctica</div>
+            <div id="reportContent" class="report-grid"></div>
+            <p class="small-note">
+                Este reporte queda visible en pantalla para que el equipo pueda registrarlo o tomar captura.
+            </p>
+        </div>
+    </section>
+</div>
+
+<script>
+    // -----------------------------
+    // Variables globales de estado
+    // -----------------------------
+    const MAX_EXERCISES = 10;
+
+    let currentMode = "razones";          // Tipo de problema seleccionado
+    let currentExerciseNumber = 0;        // Ejercicio actual (1 a MAX_EXERCISES)
+    let correctCount = 0;                 // Aciertos
+    let incorrectCount = 0;               // Errores
+    let currentExercise = null;           // Objeto con la información del ejercicio actual
+    let alreadyChecked = false;           // Para evitar contar dos veces el mismo ejercicio
+
+    // -----------------------------
+    // Referencias a elementos DOM
+    // -----------------------------
+    const generalMessage = document.getElementById("generalMessage");
+    const integrante1Input = document.getElementById("integrante1");
+    const integrante2Input = document.getElementById("integrante2");
+    const integrante3Input = document.getElementById("integrante3");
+    const grupoInput = document.getElementById("grupo");
+
+    const exerciseTypeEl = document.getElementById("exerciseType");
+    const exerciseStatementEl = document.getElementById("exerciseStatement");
+    const answerInput = document.getElementById("answerInput");
+    const feedbackEl = document.getElementById("feedback");
+
+    const exerciseCounterEl = document.getElementById("exerciseCounter");
+    const aciertosBadge = document.getElementById("aciertosBadge");
+    const erroresBadge = document.getElementById("erroresBadge");
+
+    const btnIniciar = document.getElementById("btnIniciar");
+    const btnReiniciar = document.getElementById("btnReiniciar");
+    const btnVerificar = document.getElementById("btnVerificar");
+    const btnSiguiente = document.getElementById("btnSiguiente");
+    const btnReporte = document.getElementById("btnReporte");
+
+    const reportSection = document.getElementById("reportSection");
+    const reportContent = document.getElementById("reportContent");
+
+    // -----------------------------
+    // Utilidades
+    // -----------------------------
+
+    // Genera número entero aleatorio entre min y max (ambos incluidos)
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Elige un elemento aleatorio de un arreglo
+    function randomChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Limpia y muestra mensaje general
+    function showGeneralMessage(text, type = "info") {
+        generalMessage.textContent = text || "";
+        generalMessage.className = "message " + type;
+    }
+
+    // Actualiza contador de ejercicios y aciertos/errores
+    function updateCounters() {
+        exerciseCounterEl.textContent = "Ejercicio " + currentExerciseNumber + " de " + MAX_EXERCISES;
+        aciertosBadge.textContent = "Aciertos: " + correctCount;
+        erroresBadge.textContent = "Errores: " + incorrectCount;
+    }
+
+    // Oculta la retroalimentación
+    function clearFeedback() {
+        feedbackEl.textContent = "";
+        feedbackEl.classList.add("hidden");
+        feedbackEl.classList.remove("correct", "incorrect");
+    }
+
+    // Normaliza una razón en formato texto para comparación (ej. "3:5" o "3/5")
+    function normalizeRatioString(str) {
+        if (!str) return "";
+        let s = str.toString().trim().toLowerCase();
+        // Eliminar espacios
+        s = s.replace(/\s+/g, "");
+        // Reemplazar "/" por ":"
+        s = s.replace("/", ":");
+        return s;
+    }
+
+    // Verifica que los datos del equipo estén llenos
+    function validateTeamData() {
+        const i1 = integrante1Input.value.trim();
+        const i2 = integrante2Input.value.trim();
+        const i3 = integrante3Input.value.trim();
+        const g = grupoInput.value.trim();
+
+        if (!i1 || !i2 || !i3 || !g) {
+            showGeneralMessage("Por favor, escribe los nombres de los 3 integrantes y el grupo antes de iniciar.", "error");
+            return false;
+        }
+        showGeneralMessage("");
+        return true;
+    }
+
+    // Lee el modo seleccionado en los radio buttons
+    function getSelectedMode() {
+        const radios = document.querySelectorAll('input[name="tipo"]');
+        for (const r of radios) {
+            if (r.checked) return r.value;
+        }
+        return "razones";
+    }
+
+    // -----------------------------
+    // Generación de ejercicios
+    // -----------------------------
+
+    // 3.1 Razones, proporciones y porcentajes (dos subtipos)
+    function generateRazonesExercise() {
+        const subtype = randomChoice(["porcentaje", "razon"]);
+        let statement = "";
+        let correctAnswer;
+        let explanation = "";
+        let comparison = "numeric";
+
+        if (subtype === "porcentaje") {
+            const percents = [10, 15, 20, 25, 30];
+            const p = randomChoice(percents);
+            const base = randomInt(4, 10) * 10; // múltiplos de 10
+            const discount = base * p / 100;
+
+            statement =
+                "En una tienda, un artículo cuesta " + base + " pesos. " +
+                "Se aplica un descuento del " + p + "% sobre el precio.\n\n" +
+                "¿Cuánto se descuenta en pesos? Escribe solo la cantidad descontada (sin escribir la palabra 'pesos').";
+
+            correctAnswer = discount;
+            explanation =
+                "Para calcular el descuento, se aplica el porcentaje al precio:\n" +
+                p + "% de " + base + " = (" + p + "/100) × " + base + " = " + discount + ".\n" +
+                "Por lo tanto, el descuento es de " + discount + " pesos.";
+        } else {
+            // Subtipo razón simplificada
+            const a = randomInt(2, 12);
+            const b = randomInt(2, 12);
+
+            // Máximo común divisor para simplificar
+            function gcd(x, y) {
+                while (y !== 0) {
+                    const temp = y;
+                    y = x % y;
+                    x = temp;
+                }
+                return Math.abs(x);
+            }
+
+            const g = gcd(a, b);
+            const sa = a / g;
+            const sb = b / g;
+            const ratioSimple = sa + ":" + sb;
+
+            statement =
+                "En una receta se usan " + a + " tazas de harina y " + b + " tazas de azúcar.\n\n" +
+                "Escribe la razón harina:azúcar simplificada en formato a:b (por ejemplo 2:3).";
+
+            correctAnswer = ratioSimple;
+            comparison = "ratio";
+            explanation =
+                "La razón inicial es harina:azúcar = " + a + ":" + b + ".\n" +
+                "Se simplifica dividiendo ambos términos entre el máximo común divisor (" + g + "):\n" +
+                a + " ÷ " + g + " = " + sa + ",   " + b + " ÷ " + g + " = " + sb + ".\n" +
+                "Por lo tanto, la razón simplificada es " + ratioSimple + ".";
+        }
+
+        return {
+            type: "Razones, proporciones y porcentajes",
+            statement,
+            correctAnswer,
+            explanation,
+            comparison
+        };
+    }
+
+    // 3.2 Regla de 3 directa
+    function generateRegla3DirectaExercise() {
+        const q1 = randomInt(2, 8); // metros, cuadernos, etc
+        const unitPrice = randomInt(10, 40); // precio por unidad
+        const cost1 = q1 * unitPrice;
+        const q2 = randomInt(3, 12);
+        const result = unitPrice * q2;
+
+        const context = randomChoice(["tela", "cuadernos", "kilogramos de fruta"]);
+        let unidad = "metros";
+        let articulo = "tela";
+        if (context === "cuadernos") {
+            unidad = "cuadernos";
+            articulo = "cuadernos";
+        } else if (context === "kilogramos de fruta") {
+            unidad = "kg";
+            articulo = "fruta";
+        }
+
+        const statement =
+            "En una tienda, " + q1 + " " + unidad + " de " + articulo + " cuestan " + cost1 + " pesos.\n\n" +
+            "¿Cuánto costarán " + q2 + " " + unidad + " del mismo producto?\n" +
+            "Escribe solo el costo en pesos (puede ser número entero).";
+
+        const explanation =
+            "En una regla de 3 directa, si aumenta la cantidad también aumenta el costo.\n" +
+            "Primero calculamos el precio por unidad:\n" +
+            "Precio por unidad = " + cost1 + " ÷ " + q1 + " = " + unitPrice + " pesos.\n" +
+            "Luego multiplicamos por la nueva cantidad:\n" +
+            q2 + " × " + unitPrice + " = " + result + " pesos.\n" +
+            "Por lo tanto, " + q2 + " " + unidad + " costarán " + result + " pesos.";
+
+        return {
+            type: "Regla de 3 directa",
+            statement,
+            correctAnswer: result,
+            explanation,
+            comparison: "numeric"
+        };
+    }
+
+    // 3.3 Regla de 3 inversa
+    function generateRegla3InversaExercise() {
+        // Elegimos personas1, días1 y construimos personas2 de manera que días2 sea entero
+        const personas1 = randomInt(2, 6);
+        const dias1 = randomInt(4, 10);
+        const producto = personas1 * dias1;
+
+        // Buscar un divisor diferente de personas1
+        const posibles = [];
+        for (let d = 2; d <= 12; d++) {
+            if (producto % d === 0 && d !== personas1) {
+                posibles.push(d);
+            }
+        }
+        const personas2 = posibles.length > 0 ? randomChoice(posibles) : personas1 * 2;
+        const dias2 = producto / personas2;
+
+        const statement =
+            "Un equipo de " + personas1 + " personas tarda " + dias1 + " días en realizar cierto trabajo.\n\n" +
+            "Si ahora participan " + personas2 + " personas y trabajan al mismo ritmo, ¿en cuántos días terminarán el trabajo?\n" +
+            "Escribe solo el número de días (puede ser entero).";
+
+        const explanation =
+            "En la regla de 3 inversa, al aumentar el número de personas, el tiempo disminuye.\n" +
+            "El producto personas × días se mantiene constante:\n" +
+            personas1 + " × " + dias1 + " = " + producto + ".\n" +
+            "Para " + personas2 + " personas:\n" +
+            personas2 + " × días₂ = " + producto + " → días₂ = " + producto + " ÷ " + personas2 + " = " + dias2 + ".\n" +
+            "Por lo tanto, el trabajo se terminará en " + dias2 + " días.";
+
+        return {
+            type: "Regla de 3 inversa",
+            statement,
+            correctAnswer: dias2,
+            explanation,
+            comparison: "numeric"
+        };
+    }
+
+    // 3.4 Leyes de exponentes (amigables)
+    function generateExponentesExercise() {
+        const bases = [2, 3, 4, 5, 10];
+        const base = randomChoice(bases);
+        const lawType = randomChoice(["mult", "div", "potencia", "cero_uno"]);
+
+        let statement = "";
+        let correctAnswer;
+        let explanation = "";
+
+        if (lawType === "mult") {
+            const e1 = randomInt(1, 4);
+            const e2 = randomInt(1, 4);
+            const expResult = e1 + e2;
+            correctAnswer = Math.pow(base, expResult);
+            statement =
+                "Aplica la ley de multiplicación de potencias de la misma base:\n\n" +
+                base + "^" + e1 + " × " + base + "^" + e2 + " = ?";
+            explanation =
+                "Cuando multiplicamos potencias de la misma base, se suman los exponentes:\n" +
+                base + "^" + e1 + " × " + base + "^" + e2 + " = " + base + "^(" + e1 + " + " + e2 + ") = " +
+                base + "^" + expResult + " = " + correctAnswer + ".";
+        } else if (lawType === "div") {
+            const e1 = randomInt(2, 4);
+            const e2 = randomInt(1, e1);
+            const expResult = e1 - e2;
+            correctAnswer = Math.pow(base, expResult);
+            statement =
+                "Aplica la ley de división de potencias de la misma base:\n\n" +
+                base + "^" + e1 + " ÷ " + base + "^" + e2 + " = ?";
+            explanation =
+                "Cuando dividimos potencias de la misma base, se restan los exponentes:\n" +
+                base + "^" + e1 + " ÷ " + base + "^" + e2 + " = " + base + "^(" + e1 + " - " + e2 + ") = " +
+                base + "^" + expResult + " = " + correctAnswer + ".";
+        } else if (lawType === "potencia") {
+            const e1 = randomInt(1, 3);
+            const e2 = randomInt(1, 3);
+            const expResult = e1 * e2;
+            correctAnswer = Math.pow(base, expResult);
+            statement =
+                "Aplica la ley de potencia de una potencia:\n\n" +
+                "(" + base + "^" + e1 + ")^" + e2 + " = ?";
+            explanation =
+                "En la potencia de una potencia, se multiplican los exponentes:\n" +
+                "(" + base + "^" + e1 + ")^" + e2 + " = " + base + "^(" + e1 + " × " + e2 + ") = " +
+                base + "^" + expResult + " = " + correctAnswer + ".";
+        } else {
+            // exponente 0 o 1
+            const option = randomChoice(["cero", "uno"]);
+            if (option === "cero") {
+                correctAnswer = 1;
+                statement =
+                    "Aplica la ley del exponente cero:\n\n" +
+                    base + "^0 = ?";
+                explanation =
+                    "Toda base distinta de cero elevada a la potencia 0 es igual a 1:\n" +
+                    base + "^0 = 1.";
+            } else {
+                correctAnswer = base;
+                statement =
+                    "Aplica la ley del exponente 1:\n\n" +
+                    base + "^1 = ?";
+                explanation =
+                    "Cualquier número elevado a la potencia 1 es el mismo número:\n" +
+                    base + "^1 = " + base + ".";
+            }
+        }
+
+        return {
+            type: "Leyes de exponentes",
+            statement,
+            correctAnswer,
+            explanation,
+            comparison: "numeric"
+        };
+    }
+
+    // 3.5 Operaciones combinadas (nivel súper avanzado)
+    // Usamos un conjunto de expresiones predefinidas con sus resultados enteros.
+    const combinadasBank = [
+        {
+            expr: "12 - 4(3 + 2^2) + [6 - 2(5 - 3)]",
+            result: -14,
+            explanation:
+                "Primero resolvemos potencias y paréntesis internos:\n" +
+                "2^2 = 4, entonces (3 + 4) = 7.\n" +
+                "(5 - 3) = 2, luego 2(5 - 3) = 2 × 2 = 4 y [6 - 4] = 2.\n\n" +
+                "Sustituimos en la expresión:\n" +
+                "12 - 4(7) + 2 = 12 - 28 + 2.\n" +
+                "Ahora hacemos las operaciones de izquierda a derecha:\n" +
+                "12 - 28 = -16,  -16 + 2 = -14.\n" +
+                "Resultado final: -14."
+        },
+        {
+            expr: "18 ÷ 3 + 2^3 - {4[2 + (3 - 1)]}",
+            result: -2,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "2^3 = 8, (3 - 1) = 2, entonces [2 + 2] = 4.\n" +
+                "Luego 4[4] = 4 × 4 = 16.\n\n" +
+                "Sustituimos:\n" +
+                "18 ÷ 3 + 8 - 16.\n" +
+                "Hacemos la división: 18 ÷ 3 = 6.\n" +
+                "Ahora sumas y restas: 6 + 8 = 14, 14 - 16 = -2.\n" +
+                "Resultado final: -2."
+        },
+        {
+            expr: "40 - [6 + 2(4 - 1)^2] + 3^2",
+            result: 25,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "(4 - 1) = 3, entonces (4 - 1)^2 = 3^2 = 9.\n" +
+                "Luego 2(9) = 18 y [6 + 18] = 24.\n" +
+                "También 3^2 = 9.\n\n" +
+                "Sustituimos:\n" +
+                "40 - 24 + 9.\n" +
+                "Operamos de izquierda a derecha: 40 - 24 = 16, 16 + 9 = 25.\n" +
+                "Resultado final: 25."
+        },
+        {
+            expr: "25 - {3[4 + 2(3^2 - 1)]}",
+            result: -35,
+            explanation:
+                "Primero potencias y paréntesis internos:\n" +
+                "3^2 = 9, entonces (3^2 - 1) = 9 - 1 = 8.\n" +
+                "Luego 2(8) = 16 y [4 + 16] = 20.\n" +
+                "Después 3[20] = 3 × 20 = 60.\n\n" +
+                "Sustituimos:\n" +
+                "25 - 60 = -35.\n" +
+                "Resultado final: -35."
+        },
+        {
+            expr: "30 + 2[5^2 - 3(4 - 1)] - 8",
+            result: 54,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "5^2 = 25, (4 - 1) = 3, entonces 3(3) = 9.\n" +
+                "Dentro del corchete: 25 - 9 = 16, luego 2[16] = 2 × 16 = 32.\n\n" +
+                "Sustituimos:\n" +
+                "30 + 32 - 8.\n" +
+                "De izquierda a derecha: 30 + 32 = 62, 62 - 8 = 54.\n" +
+                "Resultado final: 54."
+        },
+        {
+            expr: "50 - [2^3 + 4(6 - 2)] + {3(5 - 1)}",
+            result: 38,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "2^3 = 8, (6 - 2) = 4, entonces 4(4) = 16.\n" +
+                "Dentro del corchete: 8 + 16 = 24.\n" +
+                "(5 - 1) = 4, entonces 3(4) = 12.\n\n" +
+                "Sustituimos:\n" +
+                "50 - 24 + 12.\n" +
+                "De izquierda a derecha: 50 - 24 = 26, 26 + 12 = 38.\n" +
+                "Resultado final: 38."
+        },
+        {
+            expr: "60 ÷ 3 + 2[4^2 - (6 + 2)] - 5",
+            result: 31,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "4^2 = 16, (6 + 2) = 8, luego 16 - 8 = 8.\n" +
+                "Entonces 2[8] = 2 × 8 = 16.\n" +
+                "También 60 ÷ 3 = 20.\n\n" +
+                "Sustituimos:\n" +
+                "20 + 16 - 5.\n" +
+                "De izquierda a derecha: 20 + 16 = 36, 36 - 5 = 31.\n" +
+                "Resultado final: 31."
+        },
+        {
+            expr: "35 + {4[3^2 - (2 + 1)]} - 2^3",
+            result: 51,
+            explanation:
+                "Primero potencias y paréntesis:\n" +
+                "3^2 = 9, (2 + 1) = 3, entonces 9 - 3 = 6.\n" +
+                "Luego 4[6] = 4 × 6 = 24.\n" +
+                "También 2^3 = 8.\n\n" +
+                "Sustituimos:\n" +
+                "35 + 24 - 8.\n" +
+                "De izquierda a derecha: 35 + 24 = 59, 59 - 8 = 51.\n" +
+                "Resultado final: 51."
+        }
+    ];
+
+    function generateCombinadasExercise() {
+        const item = randomChoice(combinadasBank);
+        const statement =
+            "Resuelve la siguiente operación combinada respetando la jerarquía de operaciones:\n\n" +
+            item.expr + " = ?\n\n" +
+            "Escribe el resultado final como número entero (puede ser negativo).";
+
+        return {
+            type: "Operaciones combinadas (nivel súper avanzado)",
+            statement,
+            correctAnswer: item.result,
+            explanation: item.explanation,
+            comparison: "numeric"
+        };
+    }
+
+    // Elige y genera un ejercicio según el modo
+    function generateExerciseForMode(mode) {
+        if (mode === "mixto") {
+            const options = ["razones", "regla3d", "regla3i", "exponentes", "combinadas"];
+            mode = randomChoice(options);
+        }
+
+        if (mode === "razones") {
+            return generateRazonesExercise();
+        } else if (mode === "regla3d") {
+            return generateRegla3DirectaExercise();
+        } else if (mode === "regla3i") {
+            return generateRegla3InversaExercise();
+        } else if (mode === "exponentes") {
+            return generateExponentesExercise();
+        } else if (mode === "combinadas") {
+            return generateCombinadasExercise();
+        } else {
+            return generateRazonesExercise();
+        }
+    }
+
+    // -----------------------------
+    // Flujo principal
+    // -----------------------------
+
+    // Genera un nuevo ejercicio y lo muestra
+    function newExercise() {
+        if (currentExerciseNumber >= MAX_EXERCISES) {
+            showGeneralMessage("Ya resolviste " + MAX_EXERCISES + " ejercicios. Puedes ver el reporte final o reiniciar los contadores.", "info");
+            return;
+        }
+
+        clearFeedback();
+        alreadyChecked = false;
+        answerInput.value = "";
+
+        const modeToUse = currentMode;
+        currentExercise = generateExerciseForMode(modeToUse);
+
+        currentExerciseNumber += 1;
+
+        exerciseTypeEl.textContent = "Tipo de problema: " + currentExercise.type;
+        exerciseStatementEl.textContent = currentExercise.statement;
+
+        updateCounters();
+
+        btnSiguiente.disabled = true;
+        btnVerificar.disabled = false;
+
+        answerInput.focus();
+    }
+
+    // Verifica la respuesta del estudiante
+    function verifyAnswer() {
+        if (!currentExercise) {
+            showGeneralMessage("Primero genera un ejercicio con “Iniciar práctica”.", "error");
+            return;
+        }
+
+        const raw = answerInput.value.trim();
+        if (!raw) {
+            showGeneralMessage("Escribe una respuesta antes de verificar.", "error");
+            return;
+        }
+
+        // Evita contar dos veces el mismo ejercicio
+        if (alreadyChecked) {
+            showGeneralMessage("Esta respuesta ya fue verificada. Presiona “Siguiente ejercicio” para continuar.", "info");
+            return;
+        }
+
+        let isCorrect = false;
+        const expected = currentExercise.correctAnswer;
+
+        if (currentExercise.comparison === "numeric") {
+            const userVal = parseFloat(raw.replace(",", "."));
+            if (!isNaN(userVal)) {
+                const expectedNum = parseFloat(expected);
+                const diff = Math.abs(userVal - expectedNum);
+                isCorrect = diff < 0.01; // tolerancia para decimales
+            } else {
+                isCorrect = false;
+            }
+        } else if (currentExercise.comparison === "ratio") {
+            const userNormalized = normalizeRatioString(raw);
+            const expectedNormalized = normalizeRatioString(expected);
+            isCorrect = (userNormalized === expectedNormalized);
+        } else {
+            // Comparación de texto exacta
+            isCorrect = (raw.toLowerCase() === String(expected).toLowerCase());
+        }
+
+        feedbackEl.classList.remove("hidden", "correct", "incorrect");
+
+        if (isCorrect) {
+            feedbackEl.classList.add("correct");
+            feedbackEl.textContent =
+                "✅ Correcto. Muy bien, aplicaste correctamente el procedimiento.\n\n" +
+                currentExercise.explanation;
+            correctCount += 1;
+        } else {
+            feedbackEl.classList.add("incorrect");
+            feedbackEl.textContent =
+                "❌ Incorrecto. El resultado correcto es: " + currentExercise.correctAnswer + ".\n\n" +
+                currentExercise.explanation;
+            incorrectCount += 1;
+        }
+
+        alreadyChecked = true;
+        updateCounters();
+
+        // Habilitar siguiente ejercicio y deshabilitar nueva verificación
+        btnSiguiente.disabled = false;
+        btnVerificar.disabled = true;
+        showGeneralMessage("");
+    }
+
+    // Genera reporte final
+    function generateReport() {
+        const i1 = integrante1Input.value.trim();
+        const i2 = integrante2Input.value.trim();
+        const i3 = integrante3Input.value.trim();
+        const g = grupoInput.value.trim();
+
+        const totalEjercicios = correctCount + incorrectCount;
+
+        const now = new Date();
+        const dia = String(now.getDate()).padStart(2, "0");
+        const mes = String(now.getMonth() + 1).padStart(2, "0");
+        const anio = now.getFullYear();
+        const horas = String(now.getHours()).padStart(2, "0");
+        const minutos = String(now.getMinutes()).padStart(2, "0");
+
+        const fechaStr = dia + "/" + mes + "/" + anio;
+        const horaStr = horas + ":" + minutos;
+
+        let porcentaje = 0;
+        if (totalEjercicios > 0) {
+            porcentaje = (correctCount / totalEjercicios) * 100;
+        }
+        const porcentajeStr = porcentaje.toFixed(1);
+
+        // Llenar contenido del reporte
+        reportContent.innerHTML = `
+            <div><strong>Integrante 1:</strong> ${i1 || "(sin registrar)"}</div>
+            <div><strong>Integrante 2:</strong> ${i2 || "(sin registrar)"}</div>
+            <div><strong>Integrante 3:</strong> ${i3 || "(sin registrar)"}</div>
+            <div><strong>Grupo:</strong> ${g || "(sin registrar)"}</div>
+            <div><strong>Fecha de finalización:</strong> ${fechaStr}</div>
+            <div><strong>Hora de finalización:</strong> ${horaStr}</div>
+            <div><strong>Ejercicios resueltos:</strong> ${totalEjercicios}</div>
+            <div><strong>Aciertos:</strong> ${correctCount}</div>
+            <div><strong>Errores:</strong> ${incorrectCount}</div>
+            <div><strong>Porcentaje de aciertos:</strong> ${porcentajeStr}%</div>
+        `;
+
+        reportSection.classList.remove("hidden");
+        reportSection.scrollIntoView({behavior: "smooth"});
+    }
+
+    // Reinicia contadores y número de ejercicio, pero conserva los datos del equipo
+    function resetCounters() {
+        correctCount = 0;
+        incorrectCount = 0;
+        currentExerciseNumber = 0;
+        currentExercise = null;
+        alreadyChecked = false;
+
+        exerciseTypeEl.textContent = "Selecciona un tipo de problema y presiona “Iniciar práctica”.";
+        exerciseStatementEl.textContent = "";
+        answerInput.value = "";
+        clearFeedback();
+        updateCounters();
+        btnSiguiente.disabled = true;
+        btnVerificar.disabled = false;
+        showGeneralMessage("Contadores reiniciados. Puedes iniciar una nueva práctica.", "info");
+    }
+
+    // -----------------------------
+    // Listeners
+    // -----------------------------
+
+    btnIniciar.addEventListener("click", function () {
+        if (!validateTeamData()) return;
+        currentMode = getSelectedMode();
+        if (currentExerciseNumber >= MAX_EXERCISES) {
+            // Si ya se llegó al máximo, reiniciamos el número de ejercicio pero no los aciertos previos
+            currentExerciseNumber = 0;
+        }
+        newExercise();
+    });
+
+    btnReiniciar.addEventListener("click", function () {
+        resetCounters();
+    });
+
+    btnVerificar.addEventListener("click", function () {
+        verifyAnswer();
+    });
+
+    btnSiguiente.addEventListener("click", function () {
+        newExercise();
+    });
+
+    btnReporte.addEventListener("click", function () {
+        generateReport();
+    });
+
+    // Actualizar modo cuando se cambian los radios
+    document.querySelectorAll('input[name="tipo"]').forEach(function (radio) {
+        radio.addEventListener("change", function () {
+            currentMode = getSelectedMode();
+        });
+    });
+
+    // Estado inicial
+    updateCounters();
+    showGeneralMessage("Escribe los nombres del equipo y el grupo, elige un tipo de problema y presiona “Iniciar práctica”.", "info");
+</script>
+</body>
+</html>
