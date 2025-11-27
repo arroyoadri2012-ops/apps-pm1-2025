@@ -181,6 +181,14 @@
             margin-top: 8px;
         }
 
+        .status-left,
+        .status-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
         .badge {
             padding: 4px 10px;
             border-radius: 999px;
@@ -237,6 +245,11 @@
             font-size: 0.8rem;
             color: #7b8794;
         }
+
+        ul.small-note {
+            margin-top: 4px;
+            padding-left: 18px;
+        }
     </style>
 </head>
 <body>
@@ -283,7 +296,7 @@
         <p class="small-note">
             Esta práctica genera automáticamente un paquete de <strong>10 ejercicios</strong> con los siguientes cupos:
         </p>
-        <ul class="small-note" style="margin-top:4px; padding-left:18px;">
+        <ul class="small-note">
             <li>2 ejercicios de razones, proporciones y/o porcentajes</li>
             <li>1 ejercicio de situación de proporcionalidad directa</li>
             <li>1 ejercicio de situación de proporcionalidad inversa</li>
@@ -293,6 +306,10 @@
         <p class="small-note">
             El orden de los ejercicios se mezcla de forma aleatoria. En las situaciones de proporcionalidad
             <strong>no se indica si es regla de 3 directa o inversa</strong>; el equipo debe decidir qué tipo aplicar.
+        </p>
+        <p class="small-note">
+            Importante para <strong>leyes de exponentes</strong>: escribe <strong>solo el resultado final como número</strong>
+            (por ejemplo 32), <strong>no escribas potencias</strong> con <code>^</code> o <code>**</code>.
         </p>
         <div class="button-row">
             <button id="btnIniciar">Iniciar práctica</button>
@@ -317,8 +334,11 @@
         <div id="feedback" class="feedback hidden"></div>
 
         <div class="status-bar">
-            <div class="badge" id="exerciseCounter">Ejercicio 0 de 10</div>
-            <div>
+            <div class="status-left">
+                <div class="badge" id="exerciseCounter">Ejercicio 0 de 10</div>
+                <div class="badge" id="attemptBadge">Intento: 1</div>
+            </div>
+            <div class="status-right">
                 <span class="badge badge-success" id="aciertosBadge">Aciertos: 0</span>
                 <span class="badge badge-error" id="erroresBadge">Errores: 0</span>
             </div>
@@ -356,6 +376,7 @@
     let incorrectCount = 0;               // Errores
     let currentExercise = null;           // Objeto con la información del ejercicio actual
     let alreadyChecked = false;           // Para evitar contar dos veces el mismo ejercicio
+    let attemptNumber = 1;                // Número de intento en esta sesión
 
     // -----------------------------
     // Referencias a elementos DOM
@@ -374,6 +395,7 @@
     const exerciseCounterEl = document.getElementById("exerciseCounter");
     const aciertosBadge = document.getElementById("aciertosBadge");
     const erroresBadge = document.getElementById("erroresBadge");
+    const attemptBadge = document.getElementById("attemptBadge");
 
     const btnIniciar = document.getElementById("btnIniciar");
     const btnReiniciar = document.getElementById("btnReiniciar");
@@ -424,11 +446,12 @@
         generalMessage.className = "message " + type;
     }
 
-    // Actualiza contador de ejercicios y aciertos/errores
+    // Actualiza contador de ejercicios, aciertos/errores e intento
     function updateCounters() {
         exerciseCounterEl.textContent = "Ejercicio " + currentExerciseNumber + " de " + MAX_EXERCISES;
         aciertosBadge.textContent = "Aciertos: " + correctCount;
         erroresBadge.textContent = "Errores: " + incorrectCount;
+        attemptBadge.textContent = "Intento: " + attemptNumber;
     }
 
     // Oculta la retroalimentación
@@ -630,7 +653,8 @@
             correctAnswer = Math.pow(base, expResult);
             statement =
                 "Aplica la ley de multiplicación de potencias de la misma base:\n\n" +
-                base + "^" + e1 + " × " + base + "^" + e2 + " = ?";
+                base + "^" + e1 + " × " + base + "^" + e2 + " = ?\n\n" +
+                "Importante: escribe solo el resultado final como número (por ejemplo 32), no escribas una potencia con ^ o **.";
             explanation =
                 "Cuando multiplicamos potencias de la misma base, se suman los exponentes:\n" +
                 base + "^" + e1 + " × " + base + "^" + e2 + " = " + base + "^(" + e1 + " + " + e2 + ") = " +
@@ -642,7 +666,8 @@
             correctAnswer = Math.pow(base, expResult);
             statement =
                 "Aplica la ley de división de potencias de la misma base:\n\n" +
-                base + "^" + e1 + " ÷ " + base + "^" + e2 + " = ?";
+                base + "^" + e1 + " ÷ " + base + "^" + e2 + " = ?\n\n" +
+                "Importante: escribe solo el resultado final como número (por ejemplo 25), no escribas una potencia con ^ o **.";
             explanation =
                 "Cuando dividimos potencias de la misma base, se restan los exponentes:\n" +
                 base + "^" + e1 + " ÷ " + base + "^" + e2 + " = " + base + "^(" + e1 + " - " + e2 + ") = " +
@@ -654,7 +679,8 @@
             correctAnswer = Math.pow(base, expResult);
             statement =
                 "Aplica la ley de potencia de una potencia:\n\n" +
-                "(" + base + "^" + e1 + ")^" + e2 + " = ?";
+                "(" + base + "^" + e1 + ")^" + e2 + " = ?\n\n" +
+                "Importante: escribe solo el resultado final como número (por ejemplo 64), no escribas una potencia con ^ o **.";
             explanation =
                 "En la potencia de una potencia, se multiplican los exponentes:\n" +
                 "(" + base + "^" + e1 + ")^" + e2 + " = " + base + "^(" + e1 + " × " + e2 + ") = " +
@@ -666,7 +692,8 @@
                 correctAnswer = 1;
                 statement =
                     "Aplica la ley del exponente cero:\n\n" +
-                    base + "^0 = ?";
+                    base + "^0 = ?\n\n" +
+                    "Importante: escribe solo el resultado final como número (en este caso 1), no escribas una potencia con ^ o **.";
                 explanation =
                     "Toda base distinta de cero elevada a la potencia 0 es igual a 1:\n" +
                     base + "^0 = 1.";
@@ -674,7 +701,8 @@
                 correctAnswer = base;
                 statement =
                     "Aplica la ley del exponente 1:\n\n" +
-                    base + "^1 = ?";
+                    base + "^1 = ?\n\n" +
+                    "Importante: escribe solo el resultado final como número (en este caso " + base + "), no escribas una potencia con ^ o **.";
                 explanation =
                     "Cualquier número elevado a la potencia 1 es el mismo número:\n" +
                     base + "^1 = " + base + ".";
@@ -952,7 +980,7 @@
         }
         const porcentajeStr = porcentaje.toFixed(1);
 
-        // Llenar contenido del reporte
+        // Llenar contenido del reporte (incluye número de intento)
         reportContent.innerHTML = `
             <div><strong>Integrante 1:</strong> ${i1 || "(sin registrar)"}</div>
             <div><strong>Integrante 2:</strong> ${i2 || "(sin registrar)"}</div>
@@ -964,6 +992,7 @@
             <div><strong>Aciertos:</strong> ${correctCount}</div>
             <div><strong>Errores:</strong> ${incorrectCount}</div>
             <div><strong>Porcentaje de aciertos:</strong> ${porcentajeStr}%</div>
+            <div><strong>Número de intento:</strong> ${attemptNumber}</div>
         `;
 
         reportSection.classList.remove("hidden");
@@ -978,6 +1007,7 @@
         currentExercise = null;
         alreadyChecked = false;
         exercisePlan = createExercisePlan();
+        attemptNumber += 1; // siguiente intento
 
         exerciseTypeEl.textContent = "Presiona “Iniciar práctica” para generar el primer ejercicio.";
         exerciseStatementEl.textContent = "";
@@ -986,7 +1016,7 @@
         updateCounters();
         btnSiguiente.disabled = true;
         btnVerificar.disabled = false;
-        showGeneralMessage("Contadores reiniciados. Se ha generado un nuevo paquete de 10 ejercicios.", "info");
+        showGeneralMessage("Contadores reiniciados. Se ha generado un nuevo paquete de 10 ejercicios (intento " + attemptNumber + ").", "info");
     }
 
     // -----------------------------
@@ -1003,7 +1033,7 @@
             }
             newExercise();
         } else if (currentExerciseNumber >= MAX_EXERCISES) {
-            showGeneralMessage("Ya completaste los 10 ejercicios. Usa “Ver reporte” o “Reiniciar contadores” para empezar de nuevo.", "info");
+            showGeneralMessage("Ya completaste los 10 ejercicios. Usa “Ver reporte” o “Reiniciar contadores” para empezar de nuevo (nuevo intento).", "info");
         } else {
             showGeneralMessage("La práctica ya está en curso. Usa “Siguiente ejercicio” para continuar.", "info");
         }
@@ -1028,7 +1058,7 @@
     // Estado inicial
     exercisePlan = createExercisePlan();
     updateCounters();
-    showGeneralMessage("Escribe los nombres del equipo y el grupo, luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios.", "info");
+    showGeneralMessage("Escribe los nombres del equipo y el grupo, luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios. El número de intento se mostrará en todo momento.", "info");
 </script>
 </body>
 </html>
