@@ -96,23 +96,6 @@
             }
         }
 
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            font-size: 0.9rem;
-        }
-
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .radio-item input[type="radio"] {
-            width: auto;
-        }
-
         .button-row {
             display: flex;
             flex-wrap: wrap;
@@ -166,6 +149,7 @@
         .exercise-statement {
             font-size: 0.95rem;
             margin-bottom: 8px;
+            white-space: pre-line;
         }
 
         .feedback {
@@ -293,49 +277,33 @@
         </p>
     </section>
 
-    <!-- Selección de tipo de problema -->
+    <!-- Información de la estructura fija de la práctica -->
     <section class="card">
-        <h3>Tipo de problema</h3>
-        <div class="radio-group">
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="razones" checked>
-                Razones, proporciones y porcentajes
-            </label>
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="regla3d">
-                Regla de 3 directa
-            </label>
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="regla3i">
-                Regla de 3 inversa
-            </label>
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="exponentes">
-                Leyes de exponentes (casos amigables)
-            </label>
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="combinadas">
-                Operaciones combinadas (nivel súper avanzado)
-            </label>
-            <label class="radio-item">
-                <input type="radio" name="tipo" value="mixto">
-                Modo mixto (todos los tipos anteriores)
-            </label>
-        </div>
+        <h3>Estructura de la práctica</h3>
+        <p class="small-note">
+            Esta práctica genera automáticamente un paquete de <strong>10 ejercicios</strong> con los siguientes cupos:
+        </p>
+        <ul class="small-note" style="margin-top:4px; padding-left:18px;">
+            <li>2 ejercicios de razones, proporciones y/o porcentajes</li>
+            <li>1 ejercicio de situación de proporcionalidad directa</li>
+            <li>1 ejercicio de situación de proporcionalidad inversa</li>
+            <li>3 ejercicios de leyes de exponentes (casos amigables)</li>
+            <li>3 ejercicios de operaciones combinadas (nivel súper avanzado)</li>
+        </ul>
+        <p class="small-note">
+            El orden de los ejercicios se mezcla de forma aleatoria. En las situaciones de proporcionalidad
+            <strong>no se indica si es regla de 3 directa o inversa</strong>; el equipo debe decidir qué tipo aplicar.
+        </p>
         <div class="button-row">
             <button id="btnIniciar">Iniciar práctica</button>
             <button id="btnReiniciar" class="button-secondary">Reiniciar contadores</button>
         </div>
-        <p class="small-note">
-            “Iniciar práctica” genera el primer ejercicio según el tipo seleccionado (o mezcla aleatoria si eliges
-            modo mixto).
-        </p>
     </section>
 
     <!-- Zona del ejercicio actual -->
     <section class="card">
         <h3>Ejercicio actual</h3>
-        <div id="exerciseType" class="exercise-type">Selecciona un tipo de problema y presiona “Iniciar práctica”.</div>
+        <div id="exerciseType" class="exercise-type">Presiona “Iniciar práctica” para generar el primer ejercicio.</div>
         <div id="exerciseStatement" class="exercise-statement"></div>
 
         <label for="answerInput">Escribe tu respuesta:</label>
@@ -380,7 +348,9 @@
     // -----------------------------
     const MAX_EXERCISES = 10;
 
-    let currentMode = "razones";          // Tipo de problema seleccionado
+    // Plan de tipos de ejercicio (se mezcla en cada práctica)
+    let exercisePlan = [];
+
     let currentExerciseNumber = 0;        // Ejercicio actual (1 a MAX_EXERCISES)
     let correctCount = 0;                 // Aciertos
     let incorrectCount = 0;               // Errores
@@ -426,6 +396,26 @@
     // Elige un elemento aleatorio de un arreglo
     function randomChoice(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Crea un plan de 10 ejercicios con los cupos fijados y orden aleatorio
+    function createExercisePlan() {
+        const plan = [
+            "razones", "razones",            // 2
+            "regla3d",                       // 1
+            "regla3i",                       // 1
+            "exponentes", "exponentes", "exponentes", // 3
+            "combinadas", "combinadas", "combinadas" // 3
+        ];
+
+        // Barajamos el arreglo (Fisher-Yates)
+        for (let i = plan.length - 1; i > 0; i--) {
+            const j = randomInt(0, i);
+            const temp = plan[i];
+            plan[i] = plan[j];
+            plan[j] = temp;
+        }
+        return plan;
     }
 
     // Limpia y muestra mensaje general
@@ -474,15 +464,6 @@
         return true;
     }
 
-    // Lee el modo seleccionado en los radio buttons
-    function getSelectedMode() {
-        const radios = document.querySelectorAll('input[name="tipo"]');
-        for (const r of radios) {
-            if (r.checked) return r.value;
-        }
-        return "razones";
-    }
-
     // -----------------------------
     // Generación de ejercicios
     // -----------------------------
@@ -504,7 +485,7 @@
             statement =
                 "En una tienda, un artículo cuesta " + base + " pesos. " +
                 "Se aplica un descuento del " + p + "% sobre el precio.\n\n" +
-                "¿Cuánto se descuenta en pesos? Escribe solo la cantidad descontada (sin escribir la palabra 'pesos').";
+                "¿Cuánto se descuenta en pesos? Escribe solo la cantidad descontada (sin escribir la palabra \"pesos\").";
 
             correctAnswer = discount;
             explanation =
@@ -545,7 +526,7 @@
         }
 
         return {
-            type: "Razones, proporciones y porcentajes",
+            displayType: "Razones, proporciones y porcentajes",
             statement,
             correctAnswer,
             explanation,
@@ -553,7 +534,7 @@
         };
     }
 
-    // 3.2 Regla de 3 directa
+    // 3.2 Regla de 3 directa (sin decir que es directa en el encabezado)
     function generateRegla3DirectaExercise() {
         const q1 = randomInt(2, 8); // metros, cuadernos, etc
         const unitPrice = randomInt(10, 40); // precio por unidad
@@ -578,7 +559,7 @@
             "Escribe solo el costo en pesos (puede ser número entero).";
 
         const explanation =
-            "En una regla de 3 directa, si aumenta la cantidad también aumenta el costo.\n" +
+            "Esta situación corresponde a una <regla de 3 directa>, porque al aumentar la cantidad también aumenta el costo.\n\n" +
             "Primero calculamos el precio por unidad:\n" +
             "Precio por unidad = " + cost1 + " ÷ " + q1 + " = " + unitPrice + " pesos.\n" +
             "Luego multiplicamos por la nueva cantidad:\n" +
@@ -586,7 +567,7 @@
             "Por lo tanto, " + q2 + " " + unidad + " costarán " + result + " pesos.";
 
         return {
-            type: "Regla de 3 directa",
+            displayType: "Situación de proporcionalidad (elige la estrategia adecuada)",
             statement,
             correctAnswer: result,
             explanation,
@@ -594,9 +575,8 @@
         };
     }
 
-    // 3.3 Regla de 3 inversa
+    // 3.3 Regla de 3 inversa (sin decir que es inversa en el encabezado)
     function generateRegla3InversaExercise() {
-        // Elegimos personas1, días1 y construimos personas2 de manera que días2 sea entero
         const personas1 = randomInt(2, 6);
         const dias1 = randomInt(4, 10);
         const producto = personas1 * dias1;
@@ -617,7 +597,7 @@
             "Escribe solo el número de días (puede ser entero).";
 
         const explanation =
-            "En la regla de 3 inversa, al aumentar el número de personas, el tiempo disminuye.\n" +
+            "Esta situación corresponde a una <regla de 3 inversa>, porque al aumentar el número de personas, el tiempo disminuye.\n\n" +
             "El producto personas × días se mantiene constante:\n" +
             personas1 + " × " + dias1 + " = " + producto + ".\n" +
             "Para " + personas2 + " personas:\n" +
@@ -625,7 +605,7 @@
             "Por lo tanto, el trabajo se terminará en " + dias2 + " días.";
 
         return {
-            type: "Regla de 3 inversa",
+            displayType: "Situación de proporcionalidad (elige la estrategia adecuada)",
             statement,
             correctAnswer: dias2,
             explanation,
@@ -702,7 +682,7 @@
         }
 
         return {
-            type: "Leyes de exponentes",
+            displayType: "Leyes de exponentes (casos amigables)",
             statement,
             correctAnswer,
             explanation,
@@ -825,7 +805,7 @@
             "Escribe el resultado final como número entero (puede ser negativo).";
 
         return {
-            type: "Operaciones combinadas (nivel súper avanzado)",
+            displayType: "Operaciones combinadas (nivel súper avanzado)",
             statement,
             correctAnswer: item.result,
             explanation: item.explanation,
@@ -833,22 +813,17 @@
         };
     }
 
-    // Elige y genera un ejercicio según el modo
-    function generateExerciseForMode(mode) {
-        if (mode === "mixto") {
-            const options = ["razones", "regla3d", "regla3i", "exponentes", "combinadas"];
-            mode = randomChoice(options);
-        }
-
-        if (mode === "razones") {
+    // Genera un ejercicio a partir del código de tipo del plan
+    function generateExerciseByCode(code) {
+        if (code === "razones") {
             return generateRazonesExercise();
-        } else if (mode === "regla3d") {
+        } else if (code === "regla3d") {
             return generateRegla3DirectaExercise();
-        } else if (mode === "regla3i") {
+        } else if (code === "regla3i") {
             return generateRegla3InversaExercise();
-        } else if (mode === "exponentes") {
+        } else if (code === "exponentes") {
             return generateExponentesExercise();
-        } else if (mode === "combinadas") {
+        } else if (code === "combinadas") {
             return generateCombinadasExercise();
         } else {
             return generateRazonesExercise();
@@ -862,7 +837,7 @@
     // Genera un nuevo ejercicio y lo muestra
     function newExercise() {
         if (currentExerciseNumber >= MAX_EXERCISES) {
-            showGeneralMessage("Ya resolviste " + MAX_EXERCISES + " ejercicios. Puedes ver el reporte final o reiniciar los contadores.", "info");
+            showGeneralMessage("Ya completaste los 10 ejercicios de esta práctica. Puedes ver el reporte final o reiniciar los contadores.", "info");
             return;
         }
 
@@ -870,12 +845,13 @@
         alreadyChecked = false;
         answerInput.value = "";
 
-        const modeToUse = currentMode;
-        currentExercise = generateExerciseForMode(modeToUse);
+        const index = currentExerciseNumber; // 0 a 9
+        const code = exercisePlan[index];
+        currentExercise = generateExerciseByCode(code);
 
         currentExerciseNumber += 1;
 
-        exerciseTypeEl.textContent = "Tipo de problema: " + currentExercise.type;
+        exerciseTypeEl.textContent = "Tipo de problema: " + currentExercise.displayType;
         exerciseStatementEl.textContent = currentExercise.statement;
 
         updateCounters();
@@ -994,22 +970,23 @@
         reportSection.scrollIntoView({behavior: "smooth"});
     }
 
-    // Reinicia contadores y número de ejercicio, pero conserva los datos del equipo
+    // Reinicia contadores, número de ejercicio y plan
     function resetCounters() {
         correctCount = 0;
         incorrectCount = 0;
         currentExerciseNumber = 0;
         currentExercise = null;
         alreadyChecked = false;
+        exercisePlan = createExercisePlan();
 
-        exerciseTypeEl.textContent = "Selecciona un tipo de problema y presiona “Iniciar práctica”.";
+        exerciseTypeEl.textContent = "Presiona “Iniciar práctica” para generar el primer ejercicio.";
         exerciseStatementEl.textContent = "";
         answerInput.value = "";
         clearFeedback();
         updateCounters();
         btnSiguiente.disabled = true;
         btnVerificar.disabled = false;
-        showGeneralMessage("Contadores reiniciados. Puedes iniciar una nueva práctica.", "info");
+        showGeneralMessage("Contadores reiniciados. Se ha generado un nuevo paquete de 10 ejercicios.", "info");
     }
 
     // -----------------------------
@@ -1018,12 +995,18 @@
 
     btnIniciar.addEventListener("click", function () {
         if (!validateTeamData()) return;
-        currentMode = getSelectedMode();
-        if (currentExerciseNumber >= MAX_EXERCISES) {
-            // Si ya se llegó al máximo, reiniciamos el número de ejercicio pero no los aciertos previos
-            currentExerciseNumber = 0;
+
+        if (currentExerciseNumber === 0 && !currentExercise) {
+            // Primera vez: asegurarnos de tener un plan
+            if (!exercisePlan || exercisePlan.length !== MAX_EXERCISES) {
+                exercisePlan = createExercisePlan();
+            }
+            newExercise();
+        } else if (currentExerciseNumber >= MAX_EXERCISES) {
+            showGeneralMessage("Ya completaste los 10 ejercicios. Usa “Ver reporte” o “Reiniciar contadores” para empezar de nuevo.", "info");
+        } else {
+            showGeneralMessage("La práctica ya está en curso. Usa “Siguiente ejercicio” para continuar.", "info");
         }
-        newExercise();
     });
 
     btnReiniciar.addEventListener("click", function () {
@@ -1042,16 +1025,10 @@
         generateReport();
     });
 
-    // Actualizar modo cuando se cambian los radios
-    document.querySelectorAll('input[name="tipo"]').forEach(function (radio) {
-        radio.addEventListener("change", function () {
-            currentMode = getSelectedMode();
-        });
-    });
-
     // Estado inicial
+    exercisePlan = createExercisePlan();
     updateCounters();
-    showGeneralMessage("Escribe los nombres del equipo y el grupo, elige un tipo de problema y presiona “Iniciar práctica”.", "info");
+    showGeneralMessage("Escribe los nombres del equipo y el grupo, luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios.", "info");
 </script>
 </body>
 </html>
