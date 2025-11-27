@@ -34,12 +34,6 @@
             color: #243b53;
         }
 
-        h2 {
-            font-size: 1.1rem;
-            margin: 0 0 4px 0;
-            color: #334e68;
-        }
-
         header p {
             margin: 2px 0;
             font-size: 0.9rem;
@@ -313,8 +307,11 @@
         </p>
         <div class="button-row">
             <button id="btnIniciar">Iniciar práctica</button>
-            <button id="btnReiniciar" class="button-secondary">Reiniciar contadores</button>
+            <button id="btnReiniciar" class="button-secondary">Volver a empezar (nuevo intento)</button>
         </div>
+        <p class="small-note">
+            Nota: solo se podrá ver el reporte y volver a empezar cuando se hayan resuelto los 10 ejercicios de un paquete.
+        </p>
     </section>
 
     <!-- Zona del ejercicio actual -->
@@ -328,7 +325,7 @@
 
         <div class="button-row" style="margin-top: 8px;">
             <button id="btnVerificar">Verificar respuesta</button>
-            <button id="btnSiguiente" class="button-secondary" disabled>Siguiente ejercicio</button>
+            <button id="btnSiguiente" class="button-secondary">Siguiente ejercicio</button>
         </div>
 
         <div id="feedback" class="feedback hidden"></div>
@@ -368,15 +365,14 @@
     // -----------------------------
     const MAX_EXERCISES = 10;
 
-    // Plan de tipos de ejercicio (se mezcla en cada práctica)
-    let exercisePlan = [];
-
-    let currentExerciseNumber = 0;        // Ejercicio actual (1 a MAX_EXERCISES)
-    let correctCount = 0;                 // Aciertos
-    let incorrectCount = 0;               // Errores
-    let currentExercise = null;           // Objeto con la información del ejercicio actual
-    let alreadyChecked = false;           // Para evitar contar dos veces el mismo ejercicio
-    let attemptNumber = 1;                // Número de intento en esta sesión
+    let exercisePlan = [];        // Plan de tipos de ejercicio
+    let currentExerciseNumber = 0; // 1 a MAX_EXERCISES
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let currentExercise = null;
+    let alreadyChecked = false;
+    let attemptNumber = 1;
+    let finishedAll = false;      // true cuando ya se verificó el ejercicio 10
 
     // -----------------------------
     // Referencias a elementos DOM
@@ -410,27 +406,23 @@
     // Utilidades
     // -----------------------------
 
-    // Genera número entero aleatorio entre min y max (ambos incluidos)
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Elige un elemento aleatorio de un arreglo
     function randomChoice(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    // Crea un plan de 10 ejercicios con los cupos fijados y orden aleatorio
     function createExercisePlan() {
         const plan = [
-            "razones", "razones",            // 2
-            "regla3d",                       // 1
-            "regla3i",                       // 1
-            "exponentes", "exponentes", "exponentes", // 3
-            "combinadas", "combinadas", "combinadas" // 3
+            "razones", "razones",
+            "regla3d",
+            "regla3i",
+            "exponentes", "exponentes", "exponentes",
+            "combinadas", "combinadas", "combinadas"
         ];
 
-        // Barajamos el arreglo (Fisher-Yates)
         for (let i = plan.length - 1; i > 0; i--) {
             const j = randomInt(0, i);
             const temp = plan[i];
@@ -440,13 +432,11 @@
         return plan;
     }
 
-    // Limpia y muestra mensaje general
     function showGeneralMessage(text, type = "info") {
         generalMessage.textContent = text || "";
         generalMessage.className = "message " + type;
     }
 
-    // Actualiza contador de ejercicios, aciertos/errores e intento
     function updateCounters() {
         exerciseCounterEl.textContent = "Ejercicio " + currentExerciseNumber + " de " + MAX_EXERCISES;
         aciertosBadge.textContent = "Aciertos: " + correctCount;
@@ -454,25 +444,20 @@
         attemptBadge.textContent = "Intento: " + attemptNumber;
     }
 
-    // Oculta la retroalimentación
     function clearFeedback() {
         feedbackEl.textContent = "";
         feedbackEl.classList.add("hidden");
         feedbackEl.classList.remove("correct", "incorrect");
     }
 
-    // Normaliza una razón en formato texto para comparación (ej. "3:5" o "3/5")
     function normalizeRatioString(str) {
         if (!str) return "";
         let s = str.toString().trim().toLowerCase();
-        // Eliminar espacios
         s = s.replace(/\s+/g, "");
-        // Reemplazar "/" por ":"
         s = s.replace("/", ":");
         return s;
     }
 
-    // Verifica que los datos del equipo estén llenos
     function validateTeamData() {
         const i1 = integrante1Input.value.trim();
         const i2 = integrante2Input.value.trim();
@@ -491,7 +476,6 @@
     // Generación de ejercicios
     // -----------------------------
 
-    // 3.1 Razones, proporciones y porcentajes (dos subtipos)
     function generateRazonesExercise() {
         const subtype = randomChoice(["porcentaje", "razon"]);
         let statement = "";
@@ -502,7 +486,7 @@
         if (subtype === "porcentaje") {
             const percents = [10, 15, 20, 25, 30];
             const p = randomChoice(percents);
-            const base = randomInt(4, 10) * 10; // múltiplos de 10
+            const base = randomInt(4, 10) * 10;
             const discount = base * p / 100;
 
             statement =
@@ -516,11 +500,9 @@
                 p + "% de " + base + " = (" + p + "/100) × " + base + " = " + discount + ".\n" +
                 "Por lo tanto, el descuento es de " + discount + " pesos.";
         } else {
-            // Subtipo razón simplificada
             const a = randomInt(2, 12);
             const b = randomInt(2, 12);
 
-            // Máximo común divisor para simplificar
             function gcd(x, y) {
                 while (y !== 0) {
                     const temp = y;
@@ -557,10 +539,9 @@
         };
     }
 
-    // 3.2 Regla de 3 directa (sin decir que es directa en el encabezado)
     function generateRegla3DirectaExercise() {
-        const q1 = randomInt(2, 8); // metros, cuadernos, etc
-        const unitPrice = randomInt(10, 40); // precio por unidad
+        const q1 = randomInt(2, 8);
+        const unitPrice = randomInt(10, 40);
         const cost1 = q1 * unitPrice;
         const q2 = randomInt(3, 12);
         const result = unitPrice * q2;
@@ -598,13 +579,11 @@
         };
     }
 
-    // 3.3 Regla de 3 inversa (sin decir que es inversa en el encabezado)
     function generateRegla3InversaExercise() {
         const personas1 = randomInt(2, 6);
         const dias1 = randomInt(4, 10);
         const producto = personas1 * dias1;
 
-        // Buscar un divisor diferente de personas1
         const posibles = [];
         for (let d = 2; d <= 12; d++) {
             if (producto % d === 0 && d !== personas1) {
@@ -636,7 +615,6 @@
         };
     }
 
-    // 3.4 Leyes de exponentes (amigables)
     function generateExponentesExercise() {
         const bases = [2, 3, 4, 5, 10];
         const base = randomChoice(bases);
@@ -686,7 +664,6 @@
                 "(" + base + "^" + e1 + ")^" + e2 + " = " + base + "^(" + e1 + " × " + e2 + ") = " +
                 base + "^" + expResult + " = " + correctAnswer + ".";
         } else {
-            // exponente 0 o 1
             const option = randomChoice(["cero", "uno"]);
             if (option === "cero") {
                 correctAnswer = 1;
@@ -718,8 +695,6 @@
         };
     }
 
-    // 3.5 Operaciones combinadas (nivel súper avanzado)
-    // Usamos un conjunto de expresiones predefinidas con sus resultados enteros.
     const combinadasBank = [
         {
             expr: "12 - 4(3 + 2^2) + [6 - 2(5 - 3)]",
@@ -841,31 +816,57 @@
         };
     }
 
-    // Genera un ejercicio a partir del código de tipo del plan
     function generateExerciseByCode(code) {
-        if (code === "razones") {
-            return generateRazonesExercise();
-        } else if (code === "regla3d") {
-            return generateRegla3DirectaExercise();
-        } else if (code === "regla3i") {
-            return generateRegla3InversaExercise();
-        } else if (code === "exponentes") {
-            return generateExponentesExercise();
-        } else if (code === "combinadas") {
-            return generateCombinadasExercise();
-        } else {
-            return generateRazonesExercise();
-        }
+        if (code === "razones") return generateRazonesExercise();
+        if (code === "regla3d") return generateRegla3DirectaExercise();
+        if (code === "regla3i") return generateRegla3InversaExercise();
+        if (code === "exponentes") return generateExponentesExercise();
+        if (code === "combinadas") return generateCombinadasExercise();
+        return generateRazonesExercise();
     }
 
     // -----------------------------
-    // Flujo principal
+    // Flujo principal y control de botones
     // -----------------------------
 
-    // Genera un nuevo ejercicio y lo muestra
+    function setInitialButtonsState() {
+        btnIniciar.disabled = false;
+        btnVerificar.disabled = true;
+        btnSiguiente.disabled = true;
+        btnReporte.disabled = false; // puede ver reporte de intento anterior si quedó
+        btnReiniciar.disabled = true; // bloqueado hasta terminar 10 ejercicios en un intento
+    }
+
+    function lockDuringExerciseNotChecked() {
+        // Solo se puede usar "Verificar respuesta"
+        btnIniciar.disabled = true;
+        btnReiniciar.disabled = true;
+        btnReporte.disabled = true;
+        btnVerificar.disabled = false;
+        btnSiguiente.disabled = true;
+    }
+
+    function lockAfterCheckButNotFinished() {
+        // Solo se puede usar "Siguiente ejercicio"
+        btnIniciar.disabled = true;
+        btnReiniciar.disabled = true;
+        btnReporte.disabled = true;
+        btnVerificar.disabled = true;
+        btnSiguiente.disabled = false;
+    }
+
+    function unlockAfterFinishedAll() {
+        // Ya terminó los 10: puede ver reporte y volver a empezar
+        btnIniciar.disabled = true;
+        btnVerificar.disabled = true;
+        btnSiguiente.disabled = true;
+        btnReporte.disabled = false;
+        btnReiniciar.disabled = false;
+    }
+
     function newExercise() {
         if (currentExerciseNumber >= MAX_EXERCISES) {
-            showGeneralMessage("Ya completaste los 10 ejercicios de esta práctica. Puedes ver el reporte final o reiniciar los contadores.", "info");
+            showGeneralMessage("Ya completaste los 10 ejercicios de este intento. Usa “Ver reporte” o “Volver a empezar”.", "info");
             return;
         }
 
@@ -873,7 +874,7 @@
         alreadyChecked = false;
         answerInput.value = "";
 
-        const index = currentExerciseNumber; // 0 a 9
+        const index = currentExerciseNumber;
         const code = exercisePlan[index];
         currentExercise = generateExerciseByCode(code);
 
@@ -883,14 +884,10 @@
         exerciseStatementEl.textContent = currentExercise.statement;
 
         updateCounters();
-
-        btnSiguiente.disabled = true;
-        btnVerificar.disabled = false;
-
+        lockDuringExerciseNotChecked();
         answerInput.focus();
     }
 
-    // Verifica la respuesta del estudiante
     function verifyAnswer() {
         if (!currentExercise) {
             showGeneralMessage("Primero genera un ejercicio con “Iniciar práctica”.", "error");
@@ -903,9 +900,8 @@
             return;
         }
 
-        // Evita contar dos veces el mismo ejercicio
         if (alreadyChecked) {
-            showGeneralMessage("Esta respuesta ya fue verificada. Presiona “Siguiente ejercicio” para continuar.", "info");
+            showGeneralMessage("Esta respuesta ya fue verificada. Usa “Siguiente ejercicio” para continuar.", "info");
             return;
         }
 
@@ -917,7 +913,7 @@
             if (!isNaN(userVal)) {
                 const expectedNum = parseFloat(expected);
                 const diff = Math.abs(userVal - expectedNum);
-                isCorrect = diff < 0.01; // tolerancia para decimales
+                isCorrect = diff < 0.01;
             } else {
                 isCorrect = false;
             }
@@ -926,7 +922,6 @@
             const expectedNormalized = normalizeRatioString(expected);
             isCorrect = (userNormalized === expectedNormalized);
         } else {
-            // Comparación de texto exacta
             isCorrect = (raw.toLowerCase() === String(expected).toLowerCase());
         }
 
@@ -949,13 +944,17 @@
         alreadyChecked = true;
         updateCounters();
 
-        // Habilitar siguiente ejercicio y deshabilitar nueva verificación
-        btnSiguiente.disabled = false;
-        btnVerificar.disabled = true;
-        showGeneralMessage("");
+        // Control de botones según si ya terminó el paquete
+        if (currentExerciseNumber < MAX_EXERCISES) {
+            lockAfterCheckButNotFinished();
+            showGeneralMessage("Respuesta verificada. Usa “Siguiente ejercicio” para continuar.", "info");
+        } else {
+            finishedAll = true;
+            unlockAfterFinishedAll();
+            showGeneralMessage("Has terminado los 10 ejercicios de este intento. Ahora puedes ver el reporte final y, si lo deseas, volver a empezar para otro intento.", "info");
+        }
     }
 
-    // Genera reporte final
     function generateReport() {
         const i1 = integrante1Input.value.trim();
         const i2 = integrante2Input.value.trim();
@@ -980,7 +979,6 @@
         }
         const porcentajeStr = porcentaje.toFixed(1);
 
-        // Llenar contenido del reporte (incluye número de intento)
         reportContent.innerHTML = `
             <div><strong>Integrante 1:</strong> ${i1 || "(sin registrar)"}</div>
             <div><strong>Integrante 2:</strong> ${i2 || "(sin registrar)"}</div>
@@ -999,24 +997,29 @@
         reportSection.scrollIntoView({behavior: "smooth"});
     }
 
-    // Reinicia contadores, número de ejercicio y plan
     function resetCounters() {
+        // Solo se permite volver a empezar cuando ya se terminaron los 10 ejercicios
+        if (!finishedAll) {
+            showGeneralMessage("Solo puedes volver a empezar cuando hayas terminado los 10 ejercicios de este intento.", "error");
+            return;
+        }
+
         correctCount = 0;
         incorrectCount = 0;
         currentExerciseNumber = 0;
         currentExercise = null;
         alreadyChecked = false;
+        finishedAll = false;
         exercisePlan = createExercisePlan();
-        attemptNumber += 1; // siguiente intento
+        attemptNumber += 1;
 
         exerciseTypeEl.textContent = "Presiona “Iniciar práctica” para generar el primer ejercicio.";
         exerciseStatementEl.textContent = "";
         answerInput.value = "";
         clearFeedback();
         updateCounters();
-        btnSiguiente.disabled = true;
-        btnVerificar.disabled = false;
-        showGeneralMessage("Contadores reiniciados. Se ha generado un nuevo paquete de 10 ejercicios (intento " + attemptNumber + ").", "info");
+        setInitialButtonsState();
+        showGeneralMessage("Se ha iniciado un nuevo intento (" + attemptNumber + "). Presiona “Iniciar práctica” para comenzar el siguiente paquete de 10 ejercicios.", "info");
     }
 
     // -----------------------------
@@ -1026,16 +1029,18 @@
     btnIniciar.addEventListener("click", function () {
         if (!validateTeamData()) return;
 
+        if (finishedAll) {
+            showGeneralMessage("Ya completaste un intento. Si deseas otro, usa “Volver a empezar (nuevo intento)”.", "info");
+            return;
+        }
+
         if (currentExerciseNumber === 0 && !currentExercise) {
-            // Primera vez: asegurarnos de tener un plan
             if (!exercisePlan || exercisePlan.length !== MAX_EXERCISES) {
                 exercisePlan = createExercisePlan();
             }
             newExercise();
-        } else if (currentExerciseNumber >= MAX_EXERCISES) {
-            showGeneralMessage("Ya completaste los 10 ejercicios. Usa “Ver reporte” o “Reiniciar contadores” para empezar de nuevo (nuevo intento).", "info");
         } else {
-            showGeneralMessage("La práctica ya está en curso. Usa “Siguiente ejercicio” para continuar.", "info");
+            showGeneralMessage("La práctica ya está en curso. Resuelve el ejercicio actual y usa “Siguiente ejercicio”.", "info");
         }
     });
 
@@ -1048,17 +1053,28 @@
     });
 
     btnSiguiente.addEventListener("click", function () {
-        newExercise();
+        if (currentExerciseNumber < MAX_EXERCISES) {
+            newExercise();
+        } else {
+            showGeneralMessage("Ya no hay más ejercicios en este intento. Usa “Ver reporte” o “Volver a empezar”.", "info");
+        }
     });
 
     btnReporte.addEventListener("click", function () {
+        if (!finishedAll) {
+            // En teoría está deshabilitado, pero por si acaso
+            showGeneralMessage("Debes terminar los 10 ejercicios antes de ver el reporte final.", "error");
+            return;
+        }
         generateReport();
     });
 
     // Estado inicial
     exercisePlan = createExercisePlan();
     updateCounters();
-    showGeneralMessage("Escribe los nombres del equipo y el grupo, luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios. El número de intento se mostrará en todo momento.", "info");
+    finishedAll = false;
+    setInitialButtonsState();
+    showGeneralMessage("Escribe los nombres del equipo y el grupo. Luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios. Solo podrás ver el reporte y volver a empezar cuando termines los 10.", "info");
 </script>
 </body>
 </html>
