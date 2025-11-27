@@ -334,6 +334,7 @@
             <div class="status-left">
                 <div class="badge" id="exerciseCounter">Ejercicio 0 de 10</div>
                 <div class="badge" id="attemptBadge">Intento: 1</div>
+                <div class="badge" id="sessionBadge">Sesión: -----</div>
             </div>
             <div class="status-right">
                 <span class="badge badge-success" id="aciertosBadge">Aciertos: 0</span>
@@ -373,6 +374,7 @@
     let alreadyChecked = false;
     let attemptNumber = 1;
     let finishedAll = false;      // true cuando ya se verificó el ejercicio 10
+    let sessionCode = "";         // Código de sesión (cambia al recargar la página)
 
     // -----------------------------
     // Referencias a elementos DOM
@@ -392,6 +394,7 @@
     const aciertosBadge = document.getElementById("aciertosBadge");
     const erroresBadge = document.getElementById("erroresBadge");
     const attemptBadge = document.getElementById("attemptBadge");
+    const sessionBadge = document.getElementById("sessionBadge");
 
     const btnIniciar = document.getElementById("btnIniciar");
     const btnReiniciar = document.getElementById("btnReiniciar");
@@ -412,6 +415,15 @@
 
     function randomChoice(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateSessionCode(length = 5) {
+        const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // sin 0,1,O,I para evitar confusión
+        let code = "";
+        for (let i = 0; i < length; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
     }
 
     function createExercisePlan() {
@@ -442,6 +454,7 @@
         aciertosBadge.textContent = "Aciertos: " + correctCount;
         erroresBadge.textContent = "Errores: " + incorrectCount;
         attemptBadge.textContent = "Intento: " + attemptNumber;
+        sessionBadge.textContent = "Sesión: " + (sessionCode || "-----");
     }
 
     function clearFeedback() {
@@ -944,14 +957,16 @@
         alreadyChecked = true;
         updateCounters();
 
-        // Control de botones según si ya terminó el paquete
         if (currentExerciseNumber < MAX_EXERCISES) {
             lockAfterCheckButNotFinished();
             showGeneralMessage("Respuesta verificada. Usa “Siguiente ejercicio” para continuar.", "info");
         } else {
             finishedAll = true;
             unlockAfterFinishedAll();
-            showGeneralMessage("Has terminado los 10 ejercicios de este intento. Ahora puedes ver el reporte final y, si lo deseas, volver a empezar para otro intento.", "info");
+            showGeneralMessage(
+                "Has terminado los 10 ejercicios de este intento. Ahora puedes ver el reporte final y, si lo deseas, volver a empezar para otro intento.",
+                "info"
+            );
         }
     }
 
@@ -980,6 +995,8 @@
         const porcentajeStr = porcentaje.toFixed(1);
 
         reportContent.innerHTML = `
+            <div><strong>Código de sesión:</strong> ${sessionCode}</div>
+            <div><strong>Número de intento:</strong> ${attemptNumber}</div>
             <div><strong>Integrante 1:</strong> ${i1 || "(sin registrar)"}</div>
             <div><strong>Integrante 2:</strong> ${i2 || "(sin registrar)"}</div>
             <div><strong>Integrante 3:</strong> ${i3 || "(sin registrar)"}</div>
@@ -990,7 +1007,6 @@
             <div><strong>Aciertos:</strong> ${correctCount}</div>
             <div><strong>Errores:</strong> ${incorrectCount}</div>
             <div><strong>Porcentaje de aciertos:</strong> ${porcentajeStr}%</div>
-            <div><strong>Número de intento:</strong> ${attemptNumber}</div>
         `;
 
         reportSection.classList.remove("hidden");
@@ -998,7 +1014,6 @@
     }
 
     function resetCounters() {
-        // Solo se permite volver a empezar cuando ya se terminaron los 10 ejercicios
         if (!finishedAll) {
             showGeneralMessage("Solo puedes volver a empezar cuando hayas terminado los 10 ejercicios de este intento.", "error");
             return;
@@ -1019,7 +1034,11 @@
         clearFeedback();
         updateCounters();
         setInitialButtonsState();
-        showGeneralMessage("Se ha iniciado un nuevo intento (" + attemptNumber + "). Presiona “Iniciar práctica” para comenzar el siguiente paquete de 10 ejercicios.", "info");
+        showGeneralMessage(
+            "Se ha iniciado un nuevo intento (" + attemptNumber + ") para esta misma sesión (" + sessionCode + "). " +
+            "Presiona “Iniciar práctica” para comenzar el siguiente paquete de 10 ejercicios.",
+            "info"
+        );
     }
 
     // -----------------------------
@@ -1062,19 +1081,25 @@
 
     btnReporte.addEventListener("click", function () {
         if (!finishedAll) {
-            // En teoría está deshabilitado, pero por si acaso
             showGeneralMessage("Debes terminar los 10 ejercicios antes de ver el reporte final.", "error");
             return;
         }
         generateReport();
     });
 
-    // Estado inicial
+    // -----------------------------
+    // Estado inicial al cargar
+    // -----------------------------
+    sessionCode = generateSessionCode();
     exercisePlan = createExercisePlan();
-    updateCounters();
     finishedAll = false;
+    updateCounters();
     setInitialButtonsState();
-    showGeneralMessage("Escribe los nombres del equipo y el grupo. Luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios. Solo podrás ver el reporte y volver a empezar cuando termines los 10.", "info");
+    showGeneralMessage(
+        "Escribe los nombres del equipo y el grupo. Luego presiona “Iniciar práctica” para comenzar el paquete de 10 ejercicios. " +
+        "El código de sesión (" + sessionCode + ") debe coincidir con el que registre la maestra.",
+        "info"
+    );
 </script>
 </body>
 </html>
